@@ -38,8 +38,9 @@ public static class DialogService
         
         return $"{secret}".Trim();
     }
-    public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false ,ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue)
+    public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue)
     {
+        if (items.Count == 0) return new Dictionary<int, string>();
         Console.Clear();
         ConsoleService.Service.WriteHeaderLine(nameof(DialogService), header);
         var startRow = Console.CursorTop;
@@ -54,6 +55,16 @@ public static class DialogService
         var quit = " ";
         var input = "";
         var selectedItems = new Dictionary<int, string>();
+
+        if (items.Count == 1 && autoSelectIfOnlyOneItem)
+        {
+            selectedItems.Add(0, items.First());
+            Console.WriteLine("");
+            Console.Write(" ");
+            ConsoleService.Service.WriteRowWithColor(1, foregroundColor, backgroundColor, $" 1. {items.First()}");
+            return selectedItems;
+        }
+
         var label = multiSelect ? "Enter number(s) and hit enter" : "Select one number and hit enter";
         ToolbarService.DrawToolbar(new []{label,"When your done just hit enter."});
         while (input != quit)
@@ -66,7 +77,7 @@ public static class DialogService
             var selectedIndex = (int.TryParse(input, out var index) ? index : 1);
             if(selectedIndex > items.Count-1) selectedIndex = items.Count;
             var selectedItem = new { Index = selectedIndex, Value = items[selectedIndex - 1] };
-            var itemAdded = selectedItems.TryAdd(selectedItem.Index, selectedItem.Value);
+            var itemAdded = selectedItems.TryAdd(selectedItem.Index-1, selectedItem.Value);
             
             ConsoleService.Service.ClearRow(Console.CursorTop-1);
             var top = Console.CursorTop - 2;

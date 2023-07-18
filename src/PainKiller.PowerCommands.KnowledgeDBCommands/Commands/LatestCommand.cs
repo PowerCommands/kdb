@@ -21,7 +21,7 @@ public class LatestCommand : DisplayCommandsBase
 
         var latestDate = number == 0 ? DateTime.Now.AddDays(-10000) : DateTime.Now.AddDays(-(dayFactor*number));
         Items = Storage.GetObject().Items.Where(i => i.Created > latestDate && (i.SourceType == sourceType || string.IsNullOrEmpty(sourceType))).ToList();
-        Print();
+        
         return Ok();
     }
 }

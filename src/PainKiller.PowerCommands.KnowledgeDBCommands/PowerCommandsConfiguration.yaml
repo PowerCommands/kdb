@@ -4,7 +4,7 @@ configuration:
   shellConfiguration:
     pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE    
     displaySeparator: \t
-    autostart: false
+    autostart: true
   showDiagnosticInformation: false
   defaultCommand: find  
   codeEditor: C:\Users\%USERNAME%\AppData\Local\Programs\Microsoft VS Code\Code.exe
