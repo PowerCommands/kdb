@@ -17,7 +17,7 @@ public class DbCommand : CommandWithToolbarBase<PowerCommandsConfiguration>
     {
         try
         {
-            var fileName = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, $"{nameof(KnowledgeDatabase)}.data");
+            var fileName = Path.Combine(Configuration.DatabaseFileName, $"{nameof(KnowledgeDatabase)}.data");
             ShellService.Service.Execute(Configuration.CodeEditor, arguments: fileName, ConfigurationGlobals.ApplicationDataFolder, WriteLine, fileExtension: "");
         }
         catch (Exception) { return BadParameterError("Your editor must be included in Path environment variables"); }

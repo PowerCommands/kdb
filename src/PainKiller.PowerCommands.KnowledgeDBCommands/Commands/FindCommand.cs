@@ -14,7 +14,7 @@ public class FindCommand : DisplayCommandsBase
     public FindCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
-        Items = Storage.GetObject().Items.Where(i => i.Name.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Tags.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Uri.ToLower().Contains(Input.SingleArgument.ToLower())).OrderByDescending(i => i.Created).ToList();
+        Items = GetDb().Items.Where(i => i.Name.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Tags.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Uri.ToLower().Contains(Input.SingleArgument.ToLower())).OrderByDescending(i => i.Created).ToList();
         if (Input.Arguments.Length > 1)
         {
             for (int i = 1; i < Input.Arguments.Length; i++) Items = Items.Where(m => m.Name.ToLower().Contains(Input.Arguments[i].ToLower()) || m.Tags.ToLower().Contains(Input.Arguments[i].ToLower()) || m.Uri.ToLower().Contains(Input.Arguments[i])).OrderByDescending(i => i.Created).ToList();

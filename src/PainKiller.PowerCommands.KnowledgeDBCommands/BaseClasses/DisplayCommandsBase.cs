@@ -7,9 +7,7 @@ public abstract class DisplayCommandsBase : CommandWithToolbarBase<PowerCommands
 {
     protected static List<KnowledgeItem> Items = new();
     protected static KnowledgeItem? SelectedItem;
-    protected readonly IStorageService<KnowledgeDatabase> Storage;
-
-    protected DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) => Storage = StorageService<KnowledgeDatabase>.Service;
+    protected DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration){}
 
     public override RunResult Run()
     {
@@ -42,4 +40,6 @@ public abstract class DisplayCommandsBase : CommandWithToolbarBase<PowerCommands
         WriteHeadLine($"Details");
         WriteLine($"{item}");
     }
+    protected KnowledgeDatabase GetDb() => StorageService<KnowledgeDatabase>.Service.GetObject(Configuration.DatabaseFileName);
+    protected void Save(KnowledgeDatabase db) => StorageService<KnowledgeDatabase>.Service.StoreObject(db, Configuration.DatabaseFileName);
 }

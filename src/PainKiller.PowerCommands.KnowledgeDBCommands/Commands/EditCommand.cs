@@ -33,7 +33,7 @@ public class EditCommand : DisplayCommandsBase
     }
     private void Edit(KnowledgeItem item, string name, string source, string tags, string url = "")
     {
-        var db = Storage.GetObject();
+        var db = GetDb();
         var match = db.Items.First(i => i.ItemID == item.ItemID);
         db.Items.Remove(match);
 
@@ -43,7 +43,7 @@ public class EditCommand : DisplayCommandsBase
         if (!string.IsNullOrEmpty(url)) match.Uri = url;
         if (!DialogService.YesNoDialog($"Are this update ok?\n{match}\n")) return;
         db.Items.Add(match);
-        Storage.StoreObject(db);
+        Save(db);
         WriteLine($"Item {match.ItemID} {match.Name} updated.");
         ToolbarService.ClearToolbar();
     }

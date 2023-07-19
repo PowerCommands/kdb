@@ -19,6 +19,10 @@ public static class Startup
             ConsoleService.Service.WriteSuccessLine(nameof(Startup), "\nFirst startup basic application configuration completed...");
             ConsoleService.Service.WriteSuccessLine(nameof(Startup), "You will need to restart the application before the changes take effect.");
         }
+
+        var pathToDbFile = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "kdb");
+        if(!Directory.Exists(pathToDbFile)) Directory.CreateDirectory(pathToDbFile);
+
         var services = PowerCommandServices.Service;
         
         services.Configuration.Environment.InitializeValues();

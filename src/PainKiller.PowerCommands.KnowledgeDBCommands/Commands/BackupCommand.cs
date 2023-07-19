@@ -16,7 +16,7 @@ public class BackupCommand : CommandWithToolbarBase<PowerCommandsConfiguration>
         if (!HasOption("show"))
         {
             if (!Directory.Exists(IPowerCommandServices.DefaultInstance!.Configuration.BackupPath)) Directory.CreateDirectory(IPowerCommandServices.DefaultInstance!.Configuration.BackupPath);
-            var fileName = StorageService<KnowledgeDatabase>.Service.Backup();
+            var fileName = StorageService<KnowledgeDatabase>.Service.Backup(Configuration.DatabaseFileName);
             WriteLine($"File is backed up to {fileName}");
             return Ok();
         }

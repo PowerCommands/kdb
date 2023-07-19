@@ -14,7 +14,7 @@ public class DeleteCommand : DisplayCommandsBase
     public DeleteCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
-        if (SelectedItem != null) Delete(Items.First());
+        if (SelectedItem != null) Delete(SelectedItem);
         return Ok();
     }
     private void Delete(KnowledgeItem item)
@@ -23,10 +23,14 @@ public class DeleteCommand : DisplayCommandsBase
         Details(item);
 
         if (!DialogService.YesNoDialog($"Are you sure you want to delete the item?")) return;
-        var db = Storage.GetObject();
+        
+        var db = GetDb();
         var match = db.Items.First(i => i.ItemID == item.ItemID);
         db.Items.Remove(match);
-        Storage.StoreObject(db);
+        Save(db);
+        
         WriteLine($"Item {item.ItemID} {item.Name} removed.");
     }
+
+    
 }
