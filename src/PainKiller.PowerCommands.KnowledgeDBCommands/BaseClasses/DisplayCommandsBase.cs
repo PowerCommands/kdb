@@ -3,7 +3,7 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
-public abstract class DisplayCommandsBase : CommandBase<PowerCommandsConfiguration>
+public abstract class DisplayCommandsBase : CommandWithToolbarBase<PowerCommandsConfiguration>
 {
     protected static List<KnowledgeItem> Items = new();
     protected static KnowledgeItem? SelectedItem;

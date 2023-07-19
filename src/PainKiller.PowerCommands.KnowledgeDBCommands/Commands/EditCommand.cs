@@ -5,10 +5,11 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
+[PowerCommandsToolbar("Press -> [Enter]")]
 [PowerCommandDesign(  description: "Edit selected item",
                         arguments: "",
                           options: "",
-                          example: "edit")]
+                          example: "")]
 public class EditCommand : DisplayCommandsBase
 {
     public EditCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
@@ -16,15 +17,13 @@ public class EditCommand : DisplayCommandsBase
     {
         if (SelectedItem == null) return Ok();
         Console.Clear();
-        Details(SelectedItem);
         WriteHeadLine($"\nEdit [{SelectedItem.Name}]\n");
-        WriteLine("Use syntax property name = <new value> for those properties of the item you want to change. Example below shows all properties you can change.");
-        WriteLine("If you need to append or remove a tag, you can also do that with the [tag] command\n");
+        Details(SelectedItem);
+        WriteLine("\nUse syntax property name=<new value> for those properties of the item you want to change. Example below shows all properties you can change.");
+        WriteLine("If you need to append or remove a tag, you can also do that with the [tags] command\n");
         WriteLine($"{nameof(KnowledgeItem.Name).ToLower()}=<name>|{nameof(KnowledgeItem.Tags).ToLower()}=<tags>|{nameof(KnowledgeItem.Uri).ToLower()}=<uri>|{nameof(KnowledgeItem.SourceType).ToLower()}=<source type>\n");
         WriteLine($"Supported source types are: url, onenote, path, file\n");
 
-        ToolbarService.ClearToolbar();
-        ToolbarService.DrawToolbar( new []{"[EDIT]"}, new[] { ConsoleColor.DarkYellow });
         var input = DialogService.QuestionAnswerDialog("Input your edit string!");
 
         var editItem = input.ToItem();

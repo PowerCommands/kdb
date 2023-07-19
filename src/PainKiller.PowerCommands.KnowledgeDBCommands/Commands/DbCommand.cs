@@ -5,10 +5,11 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
+[PowerCommandsToolbar("Press -> [Enter]")]
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Open the database file with your configured editor.",
                          example: "db")]
-public class DbCommand : CommandBase<PowerCommandsConfiguration>
+public class DbCommand : CommandWithToolbarBase<PowerCommandsConfiguration>
 {
     public DbCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
 

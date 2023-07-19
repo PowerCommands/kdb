@@ -7,5 +7,10 @@ public static class KdbExtensions
         var retVal = new KnowledgeItem{Name = ExtractPropertyValue(values, nameof(KnowledgeItem.Name).ToLower()), Uri = ExtractPropertyValue(values, nameof(KnowledgeItem.Uri).ToLower()), SourceType = ExtractPropertyValue(values, nameof(KnowledgeItem.SourceType).ToLower()), Tags = ExtractPropertyValue(values, nameof(KnowledgeItem.Tags).ToLower())};
         return retVal;
     }
+    public static string Display(this string value, int maxLength)
+    {
+        if(value.Length <= maxLength) return value;
+        return value.Substring(0, maxLength).PadRight(maxLength+3,'.');
+    }
     private static string ExtractPropertyValue(string[] values, string name) => (values.FirstOrDefault(v => v.StartsWith($"{name}=")) ?? "").Replace($"{name}=","");
 }

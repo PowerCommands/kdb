@@ -6,13 +6,16 @@ public static class DialogService
 {
     public static bool YesNoDialog(string question, string yesValue = "y", string noValue = "n")
     {
-        Console.Write($"\n{question} ({yesValue}/{noValue}): ");
+        WriteHeader($"\n{question}");
+        Console.CursorLeft = $"({yesValue}/{noValue}):".Length + 1;
+        ConsoleService.Service.WriteRowWithColor(Math.Clamp(Console.CursorTop+1, 0, Console.WindowHeight), ConsoleColor.Blue, Console.BackgroundColor, $"({yesValue}/{noValue}):");
+        Console.CursorTop = Console.CursorTop + 1;
         var response = Console.ReadLine();
         return $"{response}".Trim().ToLower() == yesValue.ToLower();
     }
     public static string QuestionAnswerDialog(string question)
     {
-        Console.WriteLine($"\n{question}");
+        WriteHeader($"{question}\n");
         Console.Write(ConfigurationGlobals.Prompt);
         var response = Console.ReadLine();
         return $"{response}".Trim();
@@ -23,7 +26,7 @@ public static class DialogService
         var secret = "";
         while (retryCount < maxRetries)
         {
-            Console.Write($"\n{question} :");
+            WriteHeader($"\n{question} :");
             secret = PasswordPromptService.Service.ReadPassword();
             Console.WriteLine();
             Console.Write("Confirm: ".PadLeft(question.Length));
@@ -42,7 +45,7 @@ public static class DialogService
     {
         if (items.Count == 0) return new Dictionary<int, string>();
         Console.Clear();
-        ConsoleService.Service.WriteHeaderLine(nameof(DialogService), header);
+        WriteHeader($"{header}\n");
         var startRow = Console.CursorTop;
         var startForegroundColor = Console.ForegroundColor;
         var startBackgroundColor = Console.BackgroundColor;
@@ -50,7 +53,7 @@ public static class DialogService
         for (int index=0; index<items.Count;index++)
         {
             var item = items[index];
-            Console.WriteLine($" {index+1}. {item}");
+            Console.WriteLine($"{index+1}. {item}");
         }
         var quit = " ";
         var input = "";
@@ -65,17 +68,16 @@ public static class DialogService
             return selectedItems;
         }
 
-        var label = multiSelect ? "Enter number(s) and hit enter" : "Select one number and hit enter";
-        ToolbarService.DrawToolbar(new []{label,"When your done just hit enter."});
+        var label = multiSelect ? "Enter number(s) and hit enter" : "Enter a number and hit enter";
         while (input != quit)
         {
             Console.WriteLine("");
-            Console.Write(" ");
+            Console.Write($"{label}>");
             input = ReadLineService.Service.Read();
             if(input.Trim() == "") break;
             
             var selectedIndex = (int.TryParse(input, out var index) ? index : 1);
-            if(selectedIndex > items.Count-1) selectedIndex = items.Count;
+            if(selectedIndex > items.Count) selectedIndex = items.Count;
             var selectedItem = new { Index = selectedIndex, Value = items[selectedIndex - 1] };
             var itemAdded = selectedItems.TryAdd(selectedItem.Index-1, selectedItem.Value);
             
@@ -84,16 +86,23 @@ public static class DialogService
             Console.CursorTop = Math.Clamp(top, 0, Console.LargestWindowHeight - 1);
             Console.CursorLeft = 0;
 
-            if(itemAdded) ConsoleService.Service.WriteRowWithColor(startRow + selectedIndex - 1, foregroundColor, backgroundColor, $" {selectedIndex}. {selectedItem.Value}");
+            if(itemAdded) ConsoleService.Service.WriteRowWithColor(startRow + selectedIndex - 1, foregroundColor, backgroundColor, $"{selectedIndex}. {selectedItem.Value}");
             else
             {
                 selectedItems.Remove(selectedItem.Index);
-                ConsoleService.Service.WriteRowWithColor(startRow + selectedIndex - 1, startForegroundColor, startBackgroundColor, $" {selectedIndex}. {selectedItem.Value}");
+                ConsoleService.Service.WriteRowWithColor(startRow + selectedIndex - 1, startForegroundColor, startBackgroundColor, $"{selectedIndex}. {selectedItem.Value}");
             }
 
             if (!multiSelect) break;
         }
         ToolbarService.ClearToolbar();
         return selectedItems;
+    }
+    private static void WriteHeader(string text)
+    {
+        var originalColor = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write(text);
+        Console.ForegroundColor = originalColor;
     }
 }

@@ -6,11 +6,13 @@ namespace PainKiller.PowerCommands.Core.Services;
 
 public static class ToolbarService
 {
-    private static string[]? Labels = null;
+    private static string[]? _labels = null;
     public static void DrawToolbar(string[] labels, ConsoleColor[]? consoleColors = null)
     {
-        if(Labels != null)  ClearToolbar();
-        Labels = labels;
+        if(labels.Length == 0) return;
+        ClearToolbar();
+
+        _labels = labels;
         var colors = consoleColors ?? new[] { ConsoleColor.Green, ConsoleColor.DarkRed, ConsoleColor.DarkMagenta, ConsoleColor.DarkYellow, ConsoleColor.DarkGray,ConsoleColor.Red,ConsoleColor.DarkBlue,ConsoleColor.DarkGreen,ConsoleColor.Blue,ConsoleColor.Cyan,ConsoleColor.Magenta,ConsoleColor.DarkYellow,ConsoleColor.DarkBlue,ConsoleColor.Green, ConsoleColor.DarkRed, ConsoleColor.DarkMagenta, ConsoleColor.DarkYellow, ConsoleColor.DarkGray,ConsoleColor.Red,ConsoleColor.DarkBlue,ConsoleColor.DarkGreen,ConsoleColor.Blue,ConsoleColor.Cyan,ConsoleColor.Magenta,ConsoleColor.DarkYellow,ConsoleColor.DarkBlue,ConsoleColor.Green, ConsoleColor.DarkRed, ConsoleColor.DarkMagenta, ConsoleColor.DarkYellow, ConsoleColor.DarkGray,ConsoleColor.Red,ConsoleColor.DarkBlue,ConsoleColor.DarkGreen,ConsoleColor.Blue,ConsoleColor.Cyan,ConsoleColor.Magenta,ConsoleColor.DarkYellow,ConsoleColor.DarkBlue,ConsoleColor.Green, ConsoleColor.DarkRed, ConsoleColor.DarkMagenta, ConsoleColor.DarkYellow, ConsoleColor.DarkGray,ConsoleColor.Red,ConsoleColor.DarkBlue,ConsoleColor.DarkGreen,ConsoleColor.Blue,ConsoleColor.Cyan,ConsoleColor.Magenta,ConsoleColor.DarkYellow,ConsoleColor.DarkBlue };
         colors = colors.Reverse().ToArray();
         var originalPosition = new Point(x: Console.CursorLeft, y: Console.CursorTop);
@@ -34,10 +36,10 @@ public static class ToolbarService
     }
     public static void ClearToolbar()
     {
-        if(Labels.Length == 0) return;
+        if(_labels == null || _labels.Length == 0) return;
         var originalPosition = new Point(x: Console.CursorLeft, y: Console.CursorTop);
         var width = 0;
-        foreach (var label in Labels) width += label.Length+1; 
+        foreach (var label in _labels) width += label.Length+1; 
         Console.SetCursorPosition( Math.Clamp(Console.WindowWidth - width, 0, Console.WindowWidth),  Math.Clamp(Console.WindowHeight-2, 0, Console.WindowHeight));
         Console.Write("".PadLeft(width,' '));
         Console.SetCursorPosition(originalPosition.X, originalPosition.Y);

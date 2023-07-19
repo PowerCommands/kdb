@@ -1,4 +1,5 @@
 using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
+using PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
 using PainKiller.PowerCommands.Shared.Attributes;
 using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 
@@ -22,10 +23,11 @@ public class FindCommand : DisplayCommandsBase
         ShowResult();
         return Ok();
     }
+    public override void RunCompleted() { }
     protected void ShowResult()
     {
         WriteHeadLine($"Found {Items.Count} matches.");
-        var selected = DialogService.ListDialog("Enter a valid number to select item, or just hit enter to cancel.", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Substring(0, Math.Clamp(i.Uri.Length, 0, 20)).PadRight(23,'.')} {i.Tags.Substring(0, Math.Clamp(i.Tags.Length, 0, 20)).PadRight(23,'.')}").ToList());
+        var selected = DialogService.ListDialog("Enter a valid number to select item, or just hit enter to cancel.", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList());
         if (selected.Count == 0) return;
         var selectedIndex = selected.First().Key;
         SelectedItem = Items[selectedIndex];
