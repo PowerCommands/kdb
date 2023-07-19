@@ -7,7 +7,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandsToolbar("<name>|[Options]|remove")]
 [PowerCommandDesign(  description: "Append or remove a tag, append is default if no option is used.",
                         arguments:"!<name>",
-                          options: "!remove",
+                          options: "remove",
                           example: "//append|tag myNewTag|//Delete tag|tag --delete myTagNameToDelete")]
 public class TagsCommand : DisplayCommandsBase
 {
