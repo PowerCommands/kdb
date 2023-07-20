@@ -41,6 +41,6 @@ public class FindCommand : DisplayCommandsBase
         var selectedIndex = selected.First().Key;
         SelectedItem = Items[selectedIndex];
 
-        ToolbarService.DrawToolbar(new []{$"[Action] ->","open","edit","delete","tags" });
+        ToolbarService.DrawToolbar(new []{$"[Action] ->","open (CTRL+O)","edit","delete","tags" });
     }
 }

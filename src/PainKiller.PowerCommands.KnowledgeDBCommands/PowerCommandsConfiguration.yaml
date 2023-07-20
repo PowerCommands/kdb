@@ -2,8 +2,7 @@ version: 1.0
 configuration:
   backupPath: C:\repos\Backup
   shellConfiguration:
-    pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE    
-    displaySeparator: \t
+    pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE        
     autostart: true
   showDiagnosticInformation: false
   defaultCommand: find  

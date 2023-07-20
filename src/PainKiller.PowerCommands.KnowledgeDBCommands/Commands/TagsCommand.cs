@@ -8,7 +8,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandDesign(  description: "Append or remove a tag, append is default if no option is used.",
                         arguments:"!<name>",
                           options: "remove",
-                          example: "//append|tag myNewTag|//Delete tag|tag --delete myTagNameToDelete")]
+                          example: "//First search and select one item|//append|tag myNewTag|//Delete tag|tag --delete myTagNameToDelete")]
 public class TagsCommand : DisplayCommandsBase
 {
     public TagsCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }

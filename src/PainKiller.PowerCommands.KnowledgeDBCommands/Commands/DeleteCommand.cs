@@ -8,7 +8,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandDesign(  description: "Delete the current selected item",
                         arguments: "",
                           options: "",
-                          example: "delete")]
+                          example: "//First search and select one item|delete")]
 public class DeleteCommand : DisplayCommandsBase
 {
     public DeleteCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }

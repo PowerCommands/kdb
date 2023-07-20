@@ -9,7 +9,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandDesign(  description: "Edit selected item",
                         arguments: "",
                           options: "",
-                          example: "")]
+                          example: "//First search and select one item|edit")]
 public class EditCommand : DisplayCommandsBase
 {
     public EditCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
