@@ -6,10 +6,9 @@ public static class DialogService
 {
     public static bool YesNoDialog(string question, string yesValue = "y", string noValue = "n")
     {
-        WriteHeader($"\n{question}");
-        Console.CursorLeft = $"({yesValue}/{noValue}):".Length + 1;
-        ConsoleService.Service.WriteRowWithColor(Math.Clamp(Console.CursorTop+1, 0, Console.WindowHeight), ConsoleColor.Blue, Console.BackgroundColor, $"({yesValue}/{noValue}):");
-        Console.CursorTop = Console.CursorTop + 1;
+        WriteHeader($"\n{question}"); ;
+        Console.WriteLine($"({yesValue}/{noValue}):");
+        
         var response = Console.ReadLine();
         return $"{response}".Trim().ToLower() == yesValue.ToLower();
     }
@@ -29,7 +28,7 @@ public static class DialogService
             WriteHeader($"\n{question} :");
             secret = PasswordPromptService.Service.ReadPassword();
             Console.WriteLine();
-            Console.Write("Confirm: ".PadLeft(question.Length));
+            Console.Write("Confirm: ".PadLeft(question.Length + 1));
             var confirm = PasswordPromptService.Service.ReadPassword();
             if (secret != confirm)
             {
