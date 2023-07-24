@@ -18,9 +18,12 @@ public class AddCommand : DisplayCommandsBase
     {
         if(!e.CmdText.StartsWith("add")) return;
         var args = e.CmdText.Split(' ');
-        var labels = new []{"Press [Space]"};
+        var labels = new []{""};
         switch (args.Length)
         {
+            case 1:
+                labels = new []{"Press [Space]"};
+                break;
             case 2:
                 labels = new[] { "<type> (press [tab])","(url,onenote,path,file)"};
                 break;
