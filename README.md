@@ -15,14 +15,17 @@ Option name with the following value, example ```-- name "Microsoft MSDN magazin
 --tags if optional but it helps you find the item later when you search as it also is searchable just as the link and name is.
 Example ```--tags newspaper,it,download```
 
+https://github.com/PowerCommands/kdb/assets/102176789/6df39a21-33df-40eb-9b83-48067c2a6341
+
 ## ```find```
 Find is the default command so you actually do not need to type it. You could just go ahead and input your search phrases as many as you want, every phrase act as an filter, for example ```microsoft news``` will be first search every thing matching ```microsoft``` and continue with that search result and match everything with the phrase ```news```.
 Of course ```find microsoft news``` works just as well. 
-
 ### --Year
 You could use a year filter on the search result using ```--year``` option like this: ```find microsoft --year 2023```.
 ### --Month
 You could narrow you search even more with month filter on the search result using ```--month``` option like this: ```find microsoft --year 2023 --month 7``` notice that year must also be provided.
+
+https://github.com/PowerCommands/kdb/assets/102176789/5da5386a-3454-4a77-b6be-8cfe64d032cf
 
 ## ```latest```
 With latest you could create a search result based on date instead av search phrases.
