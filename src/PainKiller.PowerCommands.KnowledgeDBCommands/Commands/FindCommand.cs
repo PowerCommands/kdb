@@ -16,17 +16,19 @@ public class FindCommand : DisplayCommandsBase
     public override RunResult Run()
     {
         Items = GetDb().Items.Where(i => i.Name.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Tags.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Uri.ToLower().Contains(Input.SingleArgument.ToLower())).OrderByDescending(i => i.Created).ToList();
-        if (Input.Arguments.Length > 1)
-        {
-            for (int i = 1; i < Input.Arguments.Length; i++) Items = Items.Where(m => m.Name.ToLower().Contains(Input.Arguments[i].ToLower()) || m.Tags.ToLower().Contains(Input.Arguments[i].ToLower()) || m.Uri.ToLower().Contains(Input.Arguments[i])).OrderByDescending(i => i.Created).ToList();
-        }
         var year = Input.OptionToInt("year");
         var month = Input.OptionToInt("month");
+        var arguments = Input.Arguments.ToList();
+        if (HasOption("year")) arguments = Input.Arguments.Where(a => a != $"{year}").ToList();
+        if (HasOption("month")) arguments = arguments.Where(a => a != $"{month}").ToList();
+        if (Input.Arguments.Length > 1)
+        {
+            
+            for (int i = 1; i < arguments.Count; i++) Items = Items.Where(m => m.Name.ToLower().Contains(arguments[i].ToLower()) || m.Tags.ToLower().Contains(arguments[i].ToLower()) || m.Uri.ToLower().Contains(arguments[i])).OrderByDescending(i => i.Created).ToList();
+        }
         if (year > 0)
         {
-            var argument = Input.SingleArgument.Replace($"{year}", "").Replace($"{month}","");
-            if (string.IsNullOrEmpty(argument)) Items = GetDb().Items;
-            Items = Items.Where(i => i.Created.Year == year && (i.Created.Month == month) || month == 0).ToList();
+            Items = Items.Where(i => i.Created.Year == year && (i.Created.Month == month || month == 0)).ToList();
         }
         if (Items.Count == 1 && Configuration.ShellConfiguration.Autostart) Open(Items.First());
         ShowResult();
