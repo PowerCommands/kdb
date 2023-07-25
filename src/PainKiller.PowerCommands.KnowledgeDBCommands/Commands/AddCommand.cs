@@ -23,7 +23,7 @@ public class AddCommand : DisplayCommandsBase
         switch (args.Length)
         {
             case 1:
-                labels = new []{"Press [Space]"};
+                 if (!string.IsNullOrEmpty(args[0])) labels = new []{""};
                 break;
             case 2:
                 labels = new[] { "<type> (press [tab])","(url,onenote,path,file)"};
