@@ -2,6 +2,7 @@
 using PainKiller.PowerCommands.ReadLine;
 using PainKiller.PowerCommands.Shared.Attributes;
 using PainKiller.PowerCommands.Shared.DomainObjects.Core;
+using System.Text.RegularExpressions;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
@@ -37,10 +38,10 @@ public class AddCommand : DisplayCommandsBase
                 labels = new []{"[Option]","--name","\"<value>\""};
                 break;
             case 6:
-                labels = new []{"[Option] (press - then [tab])","--tags"};
+                labels = Regex.Matches(string.Join(' ', args),Regex.Escape("\"")).Count == 4 ? new []{"[Option] (press - then [tab])","--tags"} : new []{"[Option]","--name","\"<value>\""};
                 break;
-            case 7:
-                labels = new []{"[Option]","--tags","<comma separated values>"};
+            default:
+                if(string.Join(' ', args).Contains("--tags")) labels = new []{"[Option]","--tags","<comma separated values>"};
                 break;
         }
         ToolbarService.DrawToolbar(labels);
