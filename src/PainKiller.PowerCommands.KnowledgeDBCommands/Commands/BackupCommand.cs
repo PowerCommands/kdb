@@ -1,8 +1,4 @@
-﻿using PainKiller.PowerCommands.Core.BaseClasses;
-using PainKiller.PowerCommands.Shared.Attributes;
-using PainKiller.PowerCommands.Shared.DomainObjects.Core;
-
-namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
+﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandsToolbar("[Enter]=backup|Options|--show (optional)")]
 [PowerCommandDesign(description: "Backup your knowledge DB file to the configured path in PowerCommandsConfiguration.yaml file, use --show option to just show your already backup up files.",

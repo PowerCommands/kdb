@@ -10,6 +10,8 @@ configuration:
   repository: https://github.com/PowerCommands/PowerCommands2022
   displayTagsMaxLength: 50
   displayUrlMaxLength: 30
+  openAiApiUrl: https://api.openai.com/v1/engines/gpt-3.5-turbo/completions
+  openAiMaxTokens: 50
   metadata:
     name: Test
     description: En exempelbeskrivning
@@ -35,7 +37,7 @@ configuration:
       index: 0
   secret:
     secrets:
-    - name: localDB
+    - name: kdb_gpt
       options:
         target: User
   environment:

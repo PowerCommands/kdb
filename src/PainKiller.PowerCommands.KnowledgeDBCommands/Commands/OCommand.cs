@@ -1,4 +1,4 @@
-using PainKiller.PowerCommands.Shared.Attributes;
+using PainKiller.PowerCommands.ReadLine;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
@@ -9,5 +9,5 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
                           example: "//First search and select one item|open")]
 public class OCommand : OpenCommand
 {
-    public OCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
+    public OCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) => ReadLineService.OpenShortCutPressed += () => Run();
 }

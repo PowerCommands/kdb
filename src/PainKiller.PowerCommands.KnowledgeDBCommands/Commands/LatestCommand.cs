@@ -1,7 +1,4 @@
-﻿using PainKiller.PowerCommands.Shared.Attributes;
-using PainKiller.PowerCommands.Shared.DomainObjects.Core;
-
-namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
+﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandsToolbar("[Options]|--days <number>|--weeks <number>|Source type one of (--url,--onenote,--path,--file")]
 [PowerCommandDesign(description: "List the latest added knowledge documents.",

@@ -1,7 +1,4 @@
 ﻿using PainKiller.PowerCommands.Configuration.DomainObjects;
-using PainKiller.PowerCommands.Core.BaseClasses;
-using PainKiller.PowerCommands.Shared.Attributes;
-using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 

@@ -1,7 +1,5 @@
 ﻿using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 using PainKiller.PowerCommands.ReadLine;
-using PainKiller.PowerCommands.Shared.Attributes;
-using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 using System.Text.RegularExpressions;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;

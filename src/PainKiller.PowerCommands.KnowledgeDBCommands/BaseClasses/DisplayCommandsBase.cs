@@ -1,7 +1,4 @@
-﻿using PainKiller.PowerCommands.Core.BaseClasses;
-using PainKiller.PowerCommands.Shared.DomainObjects.Core;
-
-namespace PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
+﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
 public abstract class DisplayCommandsBase : CommandWithToolbarBase<PowerCommandsConfiguration>
 {

@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
+﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
 public static class KdbExtensions
 {
     public static KnowledgeItem ToItem(this string editValues)
@@ -15,15 +13,4 @@ public static class KdbExtensions
         return value.Substring(0, maxLength).PadRight(maxLength+3,'.');
     }
     private static string ExtractPropertyValue(string[] values, string name) => (values.FirstOrDefault(v => v.StartsWith($"{name}=")) ?? "").Replace($"{name}=","");
-    public static DateTime ExtractDateTimeFromFileName(this string fileName)
-    {
-        var pattern = @"\d{14}"; // Matches 14 digits (yyyymmddhhmmss).
-        var match = Regex.Match(fileName, pattern);
-        
-        if (!match.Success) return DateTime.MinValue;
-        
-        var dateTimeString = match.Value;
-        if (DateTime.TryParseExact(dateTimeString, "yyyyMMddHHmmss", null, System.Globalization.DateTimeStyles.None, out DateTime result)) return result;
-        return DateTime.MinValue;
-    }
 }
