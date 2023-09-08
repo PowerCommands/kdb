@@ -7,6 +7,9 @@ configuration:
   showDiagnosticInformation: false
   defaultCommand: find  
   codeEditor: C:\Users\%USERNAME%\AppData\Local\Programs\Microsoft VS Code\Code.exe
+  commandDesignOverrides:
+  - name: find    
+    suggestions: "Eskilstuna \u00F6rebro|lunch"    
   repository: https://github.com/PowerCommands/PowerCommands2022
   displayTagsMaxLength: 50
   displayUrlMaxLength: 30

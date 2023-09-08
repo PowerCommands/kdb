@@ -32,12 +32,12 @@ public static class DialogService
             var confirm = PasswordPromptService.Service.ReadPassword();
             if (secret != confirm)
             {
-                ConsoleService.Service.WriteCritical(nameof(DialogService),"\nConfirmation failure, please try again.\n");
+                ConsoleService.Service.WriteCritical(nameof(DialogService), "\nConfirmation failure, please try again.\n");
                 retryCount++;
             }
             else break;
         }
-        
+
         return $"{secret}".Trim();
     }
     public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue)

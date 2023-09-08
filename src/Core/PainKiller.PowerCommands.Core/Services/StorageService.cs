@@ -34,7 +34,7 @@ public class StorageService<T> : IStorageService<T> where T : new()
     {
         var d = DateTime.Now;
         var sourceFilePath = string.IsNullOrEmpty(fileName) ? Path.Combine(ConfigurationGlobals.ApplicationDataFolder, $"{typeof(T).Name}.data") : fileName;
-        var backupFilePath = Path.Combine(IPowerCommandServices.DefaultInstance!.Configuration.BackupPath, $"{typeof(T).Name}-{d.Year}{d.Month.ToString().PadLeft(2,'0')}{d.Day.ToString().PadLeft(2,'0')}{d.Hour.ToString().PadLeft(2,'0')}{d.Minute.ToString().PadLeft(2,'0')}{d.Second.ToString().PadLeft(2,'0')}.data");
+        var backupFilePath = Path.Combine(IPowerCommandServices.DefaultInstance!.Configuration.BackupPath, $"{typeof(T).Name}-{d.Year}{d.Month}{d.Day}{d.Hour}{d.Minute}{d.Second}.data");
         var content = File.ReadAllText(sourceFilePath);
         File.WriteAllText(backupFilePath, content);
         return backupFilePath;

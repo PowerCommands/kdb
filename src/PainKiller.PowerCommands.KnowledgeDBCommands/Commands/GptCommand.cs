@@ -19,7 +19,7 @@ public class GptCommand : CommandBase<PowerCommandsConfiguration>
         var prompt = Input.SingleQuote;
         var maxTokens = Configuration.OpenAiMaxTokens;
 
-        using HttpClient client = new HttpClient();
+        using var client = new HttpClient();
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
             
         var requestBody = $"{{ \"prompt\": \"{prompt}\", \"max_tokens\": {maxTokens} }}";

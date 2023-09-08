@@ -1,10 +1,11 @@
 ﻿using PainKiller.PowerCommands.Security.Services;
 
 namespace PainKiller.PowerCommands.Core.Commands;
+
 [PowerCommandDesign(description: "Get, creates, removes or view secrets, first you need to configure your encryption key with initialize argument",
-                        options: "create|initialize|configuration|remove|salt",
-             disableProxyOutput: true,
-                        example: "//View all declared secrets|secret|//Get the decrypted value of named secret|secret --get \"mycommand-pass\"|secret --create \"mycommand-pass\"|secret --remove \"mycommand-pass\"|//Initialize your machine with a new encryption key (stops if this is already done)|secret --initialize")]
+    options: "create|initialize|configuration|remove|salt",
+    disableProxyOutput: true,
+    example: "//View all declared secrets|secret|secret --create \"mycommand-pass\"|secret --remove \"mycommand-pass\"|//Initialize your machine with a new encryption key (stops if this is already done)|secret --initialize")]
 public class SecretCommand : CommandBase<CommandsConfiguration>
 {
     public SecretCommand(string identifier, CommandsConfiguration configuration) : base(identifier, configuration) { }
@@ -44,8 +45,8 @@ public class SecretCommand : CommandBase<CommandsConfiguration>
 
     private RunResult Init()
     {
-        var firstHalf = IEncryptionService.GetRandomSalt();;
-        var secondHalf = IEncryptionService.GetRandomSalt();;
+        var firstHalf = IEncryptionService.GetRandomSalt(); 
+        var secondHalf = IEncryptionService.GetRandomSalt(); 
         Environment.SetEnvironmentVariable("_encryptionManager", firstHalf, EnvironmentVariableTarget.User);
         var securityConfig = new SecurityConfiguration { Encryption = new EncryptionConfiguration { SharedSecretEnvironmentKey = "_encryptionManager", SharedSecretSalt = secondHalf } };
         var fileName = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, ConfigurationGlobals.SecurityFileName);
@@ -56,7 +57,6 @@ public class SecretCommand : CommandBase<CommandsConfiguration>
 
     private RunResult List()
     {
-        if (Configuration.Secret.Secrets == null) return Ok();
         foreach (var secret in Configuration.Secret.Secrets) ConsoleService.Service.WriteObjectDescription($"{GetType().Name}", secret.Name, $"{string.Join(',', secret.Options.Keys)}");
         return Ok();
     }
@@ -65,12 +65,10 @@ public class SecretCommand : CommandBase<CommandsConfiguration>
         var name = Input.SingleQuote;
         var password = DialogService.SecretPromptDialog("Enter secret:");
         if (string.IsNullOrEmpty(password)) return BadParameterError("Passwords do not match");
-        
+
         var secret = new SecretItemConfiguration { Name = name };
         var val = SecretService.Service.SetSecret(name, password, secret.Options, EncryptionService.Service.EncryptString);
 
-        Configuration.Secret ??= new();
-        Configuration.Secret.Secrets ??= new();
         Configuration.Secret.Secrets.Add(secret);
         ConfigurationService.Service.SaveChanges(Configuration);
         Console.WriteLine();
