@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.DomainObjects;
 
@@ -20,6 +19,7 @@ public class KnowledgeItem
     public string SourceType { get; set; } = "";
     public string Uri { get; set; } = "";
     public DateTime Created { get; set; } = DateTime.Now;
+    public DateTime Updated { get; set; } = DateTime.MinValue;
     public string Tags { get; set; } = "";
     public override string ToString()
     {

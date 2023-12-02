@@ -58,7 +58,7 @@ public class AddCommand : DisplayCommandsBase
             WriteLine($"Warning, there is already a item with the same name and source stored in DB");
             return Ok();
         }
-
+        item.Updated = DateTime.Now;
         db.Items.Add(item);
         Save(db);
 

@@ -12,6 +12,13 @@ public abstract class DisplayCommandsBase : CommandWithToolbarBase<PowerCommands
     }
     protected void Open(KnowledgeItem match)
     {
+        var db = GetDb();
+        var existing = db.Items.First(i => i.ItemID == match.ItemID);
+        db.Items.Remove(existing);
+        match.Updated = DateTime.Now;
+        db.Items.Add(match);
+        Save(db);
+
         IShellExecuteManager? shellExecuteManager = null;
         switch (match.SourceType)
         {

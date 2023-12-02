@@ -33,6 +33,7 @@ public class EditCommand : DisplayCommandsBase
     {
         var db = GetDb();
         var match = db.Items.First(i => i.ItemID == item.ItemID);
+        match.Updated = DateTime.Now;
         db.Items.Remove(match);
 
         if (!string.IsNullOrEmpty(name)) match.Name = name;
