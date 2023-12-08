@@ -1,12 +1,13 @@
 ﻿using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 using PainKiller.PowerCommands.ReadLine;
 using System.Text.RegularExpressions;
+using PainKiller.PowerCommands.Core.Commands;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandDesign(  description: "Add a new knowledge item",
-                        arguments: "!<type>",
-                          options: "!name|!tags",
+[PowerCommandDesign(  description: "Add a new knowledge item or crawl a directory to find items (subdirectories and files)",
+                        arguments: "<type>",
+                          options: "!name|!tags|directory",
                       suggestions: "url|onenote|path|file",
                           example: "//Add url|add url \"https://wiki/wikis\" --name \"WikiStart\" --tags wiki,start|//Add path|add path \"C:\\temp\\project\" --name \"project directory\" --tags document")]
 
@@ -46,23 +47,40 @@ public class AddCommand : DisplayCommandsBase
     }
     public override RunResult Run()
     {
+        if (HasOption("directory")) return AddDirectory();
+
         var item = new KnowledgeItem(Input);
-        
         Details(item);
         
         if (!DialogService.YesNoDialog("Is this information correct?")) return Ok();
 
-        var db = GetDb();
-        if (db.Items.Any(i => i.Name == item.Name && i.SourceType == item.SourceType))
+        var items = GetAllItems();
+        if (DBManager.Exists(item))
         {
             WriteLine($"Warning, there is already a item with the same name and source stored in DB");
             return Ok();
         }
-        item.Updated = DateTime.Now;
-        db.Items.Add(item);
-        Save(db);
+        DBManager.Create(item);
 
         WriteLine($"Item {item.Name} has successfully been added.");
+        return Ok();
+    }
+    public RunResult AddDirectory()
+    {
+        var path = CdCommand.WorkingDirectory;
+        var prospects = DirectoryIteratorManager.GetItemsFromDirectory(DBManager.GetAll().ToList(), Configuration.FileTypesFileName, path, true, "").Where(i => i.Exists == false).ToList();
+        var table =  prospects.Select((i, idx) => new{Index = idx++, Name = i.Prospect.Name, Source = i.Prospect.SourceType, Tags= i.Prospect.Tags}).ToList();
+        ConsoleTableService.RenderTable(table, this);
+        var addQuery = DialogService.YesNoDialog("Do you want to add all this items?");
+        if (addQuery)
+        {
+            var fileName = DBManager.Backup();
+            WriteLine($"File was first backed up to {fileName}");
+
+            var items = prospects.Select(p => p.Prospect).ToList();
+            DBManager.Create(items);
+            WriteSuccessLine($"{items.Count} items was added to the knowledge database.");
+        }
         return Ok();
     }
 }

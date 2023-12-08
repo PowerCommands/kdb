@@ -21,14 +21,7 @@ public class DeleteCommand : DisplayCommandsBase
         Details(item);
 
         if (!DialogService.YesNoDialog($"Are you sure you want to delete the item?")) return;
-        
-        var db = GetDb();
-        var match = db.Items.First(i => i.ItemID == item.ItemID);
-        db.Items.Remove(match);
-        Save(db);
-        
+        DBManager.Delete(item.ItemID.GetValueOrDefault());
         WriteLine($"Item {item.ItemID} {item.Name} removed.");
     }
-
-    
 }

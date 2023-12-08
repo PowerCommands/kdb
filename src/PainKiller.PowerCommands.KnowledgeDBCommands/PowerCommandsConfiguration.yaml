@@ -34,9 +34,9 @@ configuration:
     checksum: 30cc55b7c6f29f951be3df97f634fb71
     name: PainKiller Core
   bookmark:
-    bookmarks:
-    - name: Program
-      path: C:\Program Files
+    bookmarks:    
+    - name: Images
+      path: C:\Users\%USERNAME%\OneDrive
       index: 0
   secret:
     secrets:

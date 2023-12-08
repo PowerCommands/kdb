@@ -40,10 +40,10 @@ public static class DialogService
 
         return $"{secret}".Trim();
     }
-    public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue)
+    public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true)
     {
         if (items.Count == 0) return new Dictionary<int, string>();
-        Console.Clear();
+        if(clearConsole) Console.Clear();
         WriteHeader($"{header}\n");
         var startRow = Console.CursorTop;
         var startForegroundColor = Console.ForegroundColor;

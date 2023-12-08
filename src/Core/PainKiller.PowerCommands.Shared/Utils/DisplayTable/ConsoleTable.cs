@@ -67,7 +67,7 @@ public class ConsoleTable
 
         foreach (
             var propertyValues
-            in values.Select(value => columns.Select(column => GetColumnValue<T>((value ?? default(T)) ?? throw new InvalidOperationException() , column)))
+            in values.Select(value => columns.Select(column => GetColumnValue<T>(value ?? default(T) , column)))
         ) table.AddRow(propertyValues.ToArray());
 
         return table;
@@ -258,7 +258,7 @@ public class ConsoleTable
         return typeof(T).GetProperties().Select(x => x.Name).ToArray();
     }
 
-    private static object GetColumnValue<T>(object target, string column)
+    private static object GetColumnValue<T>(object? target, string column)
     {
         return typeof(T).GetProperty(column)?.GetValue(target, null) ?? "NULL";
     }

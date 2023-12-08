@@ -4,7 +4,7 @@ namespace PainKiller.PowerCommands.Core.Services;
 public static class ConsoleTableService
 {
     private static readonly Dictionary<string, IEnumerable<IColumnRender>> TableColumnRenderDefinitions = new();
-    public static void RenderTable<T>(IEnumerable<T> items, IConsoleWriter consoleWriter) where T : new()
+    public static void RenderTable<T>(IEnumerable<T> items, IConsoleWriter consoleWriter)
     {
         var tableItems = items.ToArray();
         if (!tableItems.Any()) return;

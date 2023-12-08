@@ -1,5 +1,4 @@
 using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
-using PainKiller.PowerCommands.ReadLine;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 

@@ -31,18 +31,16 @@ public class EditCommand : DisplayCommandsBase
     }
     private void Edit(KnowledgeItem item, string name, string source, string tags, string url = "")
     {
-        var db = GetDb();
-        var match = db.Items.First(i => i.ItemID == item.ItemID);
-        match.Updated = DateTime.Now;
-        db.Items.Remove(match);
+        var db = GetAllItems();
+        var match = DBManager.First(item.ItemID.GetValueOrDefault());
 
         if (!string.IsNullOrEmpty(name)) match.Name = name;
         if (!string.IsNullOrEmpty(source) && "url path onenote".Contains(source)) match.SourceType = source;
         if (!string.IsNullOrEmpty(tags)) match.Tags = tags;
         if (!string.IsNullOrEmpty(url)) match.Uri = url;
         if (!DialogService.YesNoDialog($"Are this update ok?\n{match}\n")) return;
-        db.Items.Add(match);
-        Save(db);
+        DBManager.Edit(match);
+        
         WriteLine($"Item {match.ItemID} {match.Name} updated.");
         ToolbarService.ClearToolbar();
     }

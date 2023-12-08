@@ -1,0 +1,108 @@
+{
+  "FileTypes": [
+    {
+      "Name": "Text",
+      "Extension": ".txt"
+    },
+    {
+      "Name": "PowerPoint",
+      "Extension": ".pptx"
+    },
+    {
+      "Name": "Word",
+      "Extension": ".docx"
+    },
+    {
+      "Name": "Word_template",
+      "Extension": ".dotx"
+    },
+    {
+      "Name": "Excel",
+      "Extension": ".xlsx"
+    },
+    {
+      "Name": "Excel_template",
+      "Extension": ".xltx"
+    },
+    {
+      "Name": "PDF",
+      "Extension": ".pdf"
+    },
+    {
+      "Name": "JPEG_image",
+      "Extension": ".jpg",
+      "OpenDirectory":  true
+    },
+    {
+      "Name": "PNG_image",
+      "Extension": ".png",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "GIF_image",
+      "Extension": ".gif",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "TIFF_image",
+      "Extension": ".tiff",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "BMP_image",
+      "Extension": ".bmp",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "PSD_image",
+      "Extension": ".psd",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "RAW_image",
+      "Extension": ".raw",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "MP4_video",
+      "Extension": ".mp4",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "MP3_audio",
+      "Extension": ".mp3",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "Compressed_file",
+      "Extension": ".zip",
+      "OpenDirectory": true
+    },    
+    {
+      "Name": "XML_data",
+      "Extension": ".xml"
+    },
+    {
+      "Name": "Text",
+      "Extension": ".rtf"
+    },
+    {
+      "Name": "SVG_image",
+      "Extension": ".svg",
+      "OpenDirectory": true
+    },
+    {
+      "Name": "JSON_data",
+      "Extension": ".json"
+    },
+    {
+      "Name": "Yaml_configuration",
+      "Extension": ".yaml"
+    },
+    {
+      "Name": "EPS_image",
+      "Extension": ".eps",
+      "OpenDirectory": true
+    }
+  ]
+}

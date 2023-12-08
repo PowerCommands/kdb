@@ -25,26 +25,22 @@ public class TagsCommand : DisplayCommandsBase
     }
     private void Append(KnowledgeItem item, string tags)
     {
-        var db = GetDb();
-        var match = db.Items.First(i => i.ItemID == item.ItemID);
-        db.Items.Remove(match);
+        var items = GetAllItems();
+        var match = items.First(i => i.ItemID == item.ItemID);
         match.Tags = $"{match.Tags},{tags}";
         if (!DialogService.YesNoDialog($"Are this update ok? {match.Name} {match.SourceType} {match.Tags}?")) return;
-        db.Items.Add(match);
-        Save(db);
+        DBManager.Edit(match);
         WriteLine($"Item {match.ItemID} {match.Name} updated.");
         Details(match);
     }
 
     private void Remove(KnowledgeItem item, string tags)
     {
-        var db = GetDb();
-        var match = db.Items.First(i => i.ItemID == item.ItemID);
-        db.Items.Remove(match);
+        var items = GetAllItems();
+        var match = items.First(i => i.ItemID == item.ItemID);
         match.Tags = $"{match.Tags}".Replace($",{tags}","").Replace(tags,"");
         if (!DialogService.YesNoDialog($"Are this update ok? {match.Name} {match.SourceType} {match.Tags}?")) return;
-        db.Items.Add(match);
-        Save(db);
+        DBManager.Edit(match);
         WriteLine($"Item {match.ItemID} {match.Name} updated.");
         Details(match);
     }
