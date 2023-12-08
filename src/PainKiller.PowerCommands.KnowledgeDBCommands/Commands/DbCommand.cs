@@ -36,25 +36,11 @@ public class DbCommand : DisplayCommandsBase
         WriteCodeExample("Never opened count", $"{stats.NeverOpenedCount}");
         WriteCodeExample("\n File size", $"{stats.DisplayFileSize}");
         WriteCodeExample("Last updated", $"{stats.DisplayLastUpdated}");
-        
-        var quit = false;
-        var pageIndex = 0;
-        var pageSize = 20;
-        while (!quit)
-        {
-            Items = items.OrderBy(i => i.Updated).ThenBy(i => i.Created).Skip(pageIndex*pageSize).Take(pageSize).ToList();
-            var itemSelected = ShowResult("\n Oldest posts in database", clearConsole: false);
-            if (itemSelected) return Ok();
-
-            pageIndex++;
-            quit = !DialogService.YesNoDialog($"Do want to list next {pageSize} items?");
-            Console.Clear();
-        }
         return Ok();
     }
     public void ShowDuplicates()
     {
-        Items = DBManager.GetItemsWithDuplicateUri().Where(i => i.Tags.StartsWith("#")).ToList();
+        Items = DBManager.GetItemsWithDuplicateUri().Where(i => !i.Tags.Contains(DirectoryIteratorManager.FileTag)).ToList();
         ShowResult("Duplicates in database");
     }
 }

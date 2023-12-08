@@ -65,13 +65,11 @@
     },
     {
       "Name": "MP4_video",
-      "Extension": ".mp4",
-      "OpenDirectory": true
+      "Extension": ".mp4"
     },
     {
       "Name": "MP3_audio",
-      "Extension": ".mp3",
-      "OpenDirectory": true
+      "Extension": ".mp3"
     },
     {
       "Name": "Compressed_file",

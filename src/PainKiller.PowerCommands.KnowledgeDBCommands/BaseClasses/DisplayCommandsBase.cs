@@ -14,7 +14,7 @@ public abstract class DisplayCommandsBase : DbCommandBase
     {
         return ContinueWith("");
     }
-    protected void Open(KnowledgeItem match)
+    protected void Open(KnowledgeItem match, bool writePrompt = true)
     {
         DBManager.RefreshUpdated(match);
 
@@ -37,18 +37,17 @@ public abstract class DisplayCommandsBase : DbCommandBase
         }
         WriteHeadLine($"Opening [{match.Uri}] with [{shellExecuteManager?.GetType().Name}]");
         shellExecuteManager?.Run(Configuration.ShellConfiguration, match.Uri);
-        Write($"\n{ConfigurationGlobals.Prompt}");
+        if(writePrompt) Write($"\n{ConfigurationGlobals.Prompt}");
     }
     protected void Details(KnowledgeItem item)
     {
         WriteHeadLine($"Details");
         WriteLine($"{item}");
     }
-    protected bool ShowResult(string headLine, bool clearConsole = true)
+    protected bool ShowResult(string headLine)
     {
-        if(clearConsole) Console.Clear();
         WriteHeadLine($"{headLine}\n");
-        var selected = DialogService.ListDialog("Enter a valid number to select item, or just hit enter to cancel.", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), clearConsole: false);
+        var selected = DialogService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList());
         if (selected.Count == 0) return false;
         var selectedIndex = selected.First().Key;
         SelectedItem = Items[selectedIndex];

@@ -1,4 +1,5 @@
-﻿using PainKiller.PowerCommands.Shared.Extensions;
+﻿using PainKiller.PowerCommands.Core.Managers;
+using PainKiller.PowerCommands.Shared.Extensions;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Managers;
 
@@ -14,28 +15,42 @@ public class DbManager(string databaseFileName)
         Save(db);
         return item.ItemID.Value;
     }
-
     public int Create(List<KnowledgeItem> items)
     {
         if(items.Count == 0) return 0;
         var db = StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName);
+        var progressbar = new ProgressBar(items.Count);
         foreach (var item in items)
         {
             item.ItemID = Guid.NewGuid();
             item.Updated = DateTime.MinValue;
             item.Created = DateTime.Now;
             db.Items.Add(item);
+            progressbar.UpdateOnce();
+            progressbar.Show();
         }
         
         Save(db);
         return items.Count;
     }
-
     public void Delete(Guid itemID)
     {
         var db = StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName);
         var match = db.Items.First(i => i.ItemID == itemID);
         db.Items.Remove(match);
+        Save(db);
+    }
+    public void Delete(List<KnowledgeItem> items)
+    {
+        var db = StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName);
+        var progressbar = new ProgressBar(items.Count);
+        foreach (var item in items)
+        {
+            var match = db.Items.First(i => i.ItemID == item.ItemID);
+            db.Items.Remove(match);
+            progressbar.UpdateOnce();
+            progressbar.Show();
+        }
         Save(db);
     }
     public IEnumerable<KnowledgeItem> GetAll() => StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName).Items;

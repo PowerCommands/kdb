@@ -29,7 +29,7 @@ public class FindCommand : DisplayCommandsBase
             Items = Items.Where(i => i.Created.Year == year && (i.Created.Month == month || month == 0)).ToList();
         }
         ShowResult($"Found {Items.Count} matches.");
-        if (Items.Count == 1 && Configuration.ShellConfiguration.Autostart) Open(Items.First());
+        if (Items.Count == 1 && Configuration.ShellConfiguration.Autostart) Open(Items.First(), writePrompt: false);
         return Ok();
     }
     public override void RunCompleted() { }

@@ -53,8 +53,7 @@ public class AddCommand : DisplayCommandsBase
         Details(item);
         
         if (!DialogService.YesNoDialog("Is this information correct?")) return Ok();
-
-        var items = GetAllItems();
+        
         if (DBManager.Exists(item))
         {
             WriteLine($"Warning, there is already a item with the same name and source stored in DB");
@@ -68,12 +67,15 @@ public class AddCommand : DisplayCommandsBase
     public RunResult AddDirectory(string tag)
     {
         var path = CdCommand.WorkingDirectory;
-        var prospects = DirectoryIteratorManager.GetItemsFromDirectory(DBManager.GetAll().ToList(), Configuration.FileTypesFileName, path, true, tag: tag).Where(i => i.Exists == false).ToList();
+        var skipFiles = !DialogService.YesNoDialog("Do you want to include the files?");
+
+        var prospects = DirectoryIteratorManager.GetItemsFromDirectory(DBManager.GetAll().ToList(), Configuration.FileTypesFileName, path, true, tag: tag).Where(i => i.Exists == false && (!i.Prospect.Tags.Contains(DirectoryIteratorManager.FileTag) || !skipFiles)).ToList();
         var table =  prospects.Select((i, idx) => new{Index = idx++, Name = i.Prospect.Name, Source = i.Prospect.SourceType, Tags= i.Prospect.Tags}).ToList();
         ConsoleTableService.RenderTable(table, this);
         var addQuery = DialogService.YesNoDialog("Do you want to add all this items?");
         if (addQuery)
         {
+            
             var fileName = DBManager.Backup();
             WriteLine($"File was first backed up to {fileName}");
 
