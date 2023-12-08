@@ -40,6 +40,10 @@ public static class StringExtensions
                 size = bytes / 1024.0;
                 unit = "KB";
                 break;
+            case < 1073741824: // 1024 * 1024 * 1024, less than 1 GB
+                size = bytes / 1048576.0; // 1024 * 1024
+                unit = "MB";
+                break;
             case < 1099511627776: // 1024 * 1024 * 1024 * 1024, less than 1 TB
                 size = bytes / 1073741824.0; // 1024 * 1024 * 1024
                 unit = "GB";

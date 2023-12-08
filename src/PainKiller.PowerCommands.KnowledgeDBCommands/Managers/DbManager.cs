@@ -7,7 +7,7 @@ public class DbManager(string databaseFileName)
     public Guid Create(KnowledgeItem item)
     {
         item.ItemID = Guid.NewGuid();
-        item.Updated = DateTime.Now;
+        item.Updated = DateTime.MinValue;
         item.Created = DateTime.Now;
         var db = StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName);
         db.Items.Add(item);
@@ -22,7 +22,7 @@ public class DbManager(string databaseFileName)
         foreach (var item in items)
         {
             item.ItemID = Guid.NewGuid();
-            item.Updated = DateTime.Now;
+            item.Updated = DateTime.MinValue;
             item.Created = DateTime.Now;
             db.Items.Add(item);
         }
