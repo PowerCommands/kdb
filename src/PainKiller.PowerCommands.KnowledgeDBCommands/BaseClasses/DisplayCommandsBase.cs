@@ -14,7 +14,7 @@ public abstract class DisplayCommandsBase : DbCommandBase
     {
         return ContinueWith("");
     }
-    protected void Open(KnowledgeItem match, bool writePrompt = true)
+    protected void Open(KnowledgeItem match)
     {
         DBManager.RefreshUpdated(match);
 
@@ -37,7 +37,6 @@ public abstract class DisplayCommandsBase : DbCommandBase
         }
         WriteHeadLine($"Opening [{match.Uri}] with [{shellExecuteManager?.GetType().Name}]");
         shellExecuteManager?.Run(Configuration.ShellConfiguration, match.Uri);
-        if(writePrompt) Write($"\n{ConfigurationGlobals.Prompt}");
     }
     protected void Details(KnowledgeItem item)
     {
@@ -56,4 +55,9 @@ public abstract class DisplayCommandsBase : DbCommandBase
         ToolbarService.DrawToolbar(new[] { $"[Action] ->", "open (CTRL+O)", "edit", "delete", "tags" });
         return true;
     }
+    protected void ShowSelectedItems()
+    {
+        WriteHeadLine("Current selected items");
+        ConsoleTableService.RenderTable(SelectedItems.Select(i => new{Name = i.Name, Source = i.SourceType, Created = i.Created, Tags = i.Tags}), this);
+    } 
 }

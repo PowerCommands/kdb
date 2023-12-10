@@ -7,7 +7,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandDesign(  description: "Add a new knowledge item or crawl a directory to find items (subdirectories and files)",
                         arguments: "<type>",
-                          options: "!name|!tags|!directory",
+                          options: "!name|!directory",
                       suggestions: "url|onenote|path|file",
                           example: "//Add url|add url \"https://wiki/wikis\" --name \"WikiStart\" --tags wiki,start|//Add path|add path \"C:\\temp\\project\" --name \"project directory\" --tags document")]
 

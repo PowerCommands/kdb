@@ -13,6 +13,8 @@ public class DeleteCommand : DisplayCommandsBase
     public override RunResult Run()
     {
         if (HasOption("tag")) return DeleteTag(GetOptionValue("tag"));
+        Console.Clear();
+        ShowSelectedItems();
         foreach (var item in SelectedItems)
         {
             var cancel = Delete(item);
@@ -22,7 +24,6 @@ public class DeleteCommand : DisplayCommandsBase
     }
     private bool Delete(KnowledgeItem item)
     {
-        Console.Clear();
         Details(item);
 
         var quit = !DialogService.YesNoDialog($"Are you sure you want to delete the item?");
