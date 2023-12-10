@@ -12,15 +12,15 @@ public class TagsCommand : DisplayCommandsBase
     public TagsCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
-        if (SelectedItem == null) return Ok();
+        if (SelectedItems.Count == 0) return Ok();
         ToolbarService.ClearToolbar();
         var tag = Input.SingleArgument;
         if (HasOption("remove"))
         {
-            Remove(SelectedItem, tag);
+            foreach (var item in SelectedItems) Remove(item, tag);
             return Ok();
         }
-        Append(SelectedItem, tag);
+        foreach (var item in SelectedItems) Append(item, tag);
         return Ok();
     }
     private void Append(KnowledgeItem item, string tags)

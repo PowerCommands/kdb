@@ -7,7 +7,7 @@ public abstract class DisplayCommandsBase : DbCommandBase
 {
     
     protected static List<KnowledgeItem> Items = new();
-    protected static KnowledgeItem? SelectedItem;
+    protected static List<KnowledgeItem> SelectedItems = new();
     protected DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration){}
 
     public override RunResult Run()
@@ -47,11 +47,12 @@ public abstract class DisplayCommandsBase : DbCommandBase
     protected bool ShowResult(string headLine)
     {
         WriteHeadLine($"{headLine}\n");
-        var selected = DialogService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList());
+        var selected = ListService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), multiSelect: true);
         if (selected.Count == 0) return false;
-        var selectedIndex = selected.First().Key;
-        SelectedItem = Items[selectedIndex];
-
+        
+        SelectedItems.Clear();
+        foreach (var key in selected.Keys) SelectedItems.Add(Items[key]);
+        
         ToolbarService.DrawToolbar(new[] { $"[Action] ->", "open (CTRL+O)", "edit", "delete", "tags" });
         return true;
     }

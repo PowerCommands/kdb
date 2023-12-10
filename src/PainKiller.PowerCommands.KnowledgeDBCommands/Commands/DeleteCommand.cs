@@ -13,17 +13,24 @@ public class DeleteCommand : DisplayCommandsBase
     public override RunResult Run()
     {
         if (HasOption("tag")) return DeleteTag(GetOptionValue("tag"));
-        if (SelectedItem != null) Delete(SelectedItem);
+        foreach (var item in SelectedItems)
+        {
+            var cancel = Delete(item);
+            if(cancel) break;
+        }
         return Ok();
     }
-    private void Delete(KnowledgeItem item)
+    private bool Delete(KnowledgeItem item)
     {
         Console.Clear();
         Details(item);
 
-        if (!DialogService.YesNoDialog($"Are you sure you want to delete the item?")) return;
+        var quit = !DialogService.YesNoDialog($"Are you sure you want to delete the item?");
+        if (quit) return true;
+        
         DBManager.Delete(item.ItemID.GetValueOrDefault());
         WriteLine($"Item {item.ItemID} {item.Name} removed.");
+        return false;
     }
     private RunResult DeleteTag(string tag)
     {

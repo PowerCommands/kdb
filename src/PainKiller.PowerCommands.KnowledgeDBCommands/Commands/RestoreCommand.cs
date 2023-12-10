@@ -18,7 +18,7 @@ public class RestoreCommand : CommandBase<PowerCommandsConfiguration>
         var directoryInfo = new DirectoryInfo(backupPath);
 
         var files = directoryInfo.GetFiles("KnowledgeDatabase-*.data").OrderByDescending(f => f.CreationTime).Select(f => $"{f.Name} {f.CreationTime} {f.Length}").ToList();
-        var selectedFileItem = DialogService.ListDialog("Choose one file to restore from?", files);
+        var selectedFileItem = ListService.ListDialog("Choose one file to restore from?", files);
 
         if (selectedFileItem.Count == 0)
         {

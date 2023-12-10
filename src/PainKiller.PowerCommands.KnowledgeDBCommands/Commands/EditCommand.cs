@@ -13,10 +13,11 @@ public class EditCommand : DisplayCommandsBase
     public EditCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
-        if (SelectedItem == null) return Ok();
+        var selected = SelectedItems.FirstOrDefault();
+        if (selected == null) return Ok();
         Console.Clear();
-        WriteHeadLine($"\nEdit [{SelectedItem.Name}]\n");
-        Details(SelectedItem);
+        WriteHeadLine($"\nEdit [{selected.Name}]\n");
+        Details(selected);
         WriteLine("\nUse syntax property name=<new value> for those properties of the item you want to change. Example below shows all properties you can change.");
         WriteLine("If you need to append or remove a tag, you can also do that with the [tags] command\n");
         WriteLine($"{nameof(KnowledgeItem.Name).ToLower()}=<name>|{nameof(KnowledgeItem.Tags).ToLower()}=<tags>|{nameof(KnowledgeItem.Uri).ToLower()}=<uri>|{nameof(KnowledgeItem.SourceType).ToLower()}=<source type>\n");
@@ -25,7 +26,7 @@ public class EditCommand : DisplayCommandsBase
         var input = DialogService.QuestionAnswerDialog("Input your edit string!");
 
         var editItem = input.ToItem();
-        Edit(SelectedItem, editItem.Name, editItem.SourceType, editItem.Tags, editItem.Uri);
+        Edit(selected, editItem.Name, editItem.SourceType, editItem.Tags, editItem.Uri);
 
         return Ok();
     }
