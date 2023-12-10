@@ -35,24 +35,26 @@ public static class ListService
         if (listItems.Count - TopMargin > Console.WindowHeight)
         {
             clearConsole = true;
-            var quit = false;
             var currentPage = 0;
             var pageSize = Console.WindowHeight - TopMargin;
-            while (!quit)
+            var shouldContinue = true;
+            while (shouldContinue)
             {
                 var pageItems = listItems.Skip(currentPage * pageSize).Take(pageSize).ToList();
                 var response = ListDialogPage(header, pageItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole, currentPage);
-                if(response.Count == 0) { return new(); }
 
+                if (response.Count == 0) return new();
                 if (response.Count > 1) return response.ToDictionary();
+
                 if (response.First().ItemIndex < 0)
                 {
                     if (response.First().Caption == "n")
                     {
-                        if (currentPage * pageSize < items.Count - pageSize) currentPage++;
-                        continue;
+                        if (currentPage * pageSize >= items.Count - pageSize) shouldContinue = false;
+                        else currentPage++;
                     }
-                    if (currentPage > 0) currentPage--;
+                    else if (currentPage > 0) currentPage--;
+                    else shouldContinue = false;
                 }
                 else
                 {
@@ -84,8 +86,7 @@ public static class ListService
         var quit = false;
         while (!quit)
         {
-            var input = "";
-            input = $"{Console.ReadLine()}".Trim().ToLower();
+            var input = $"{Console.ReadLine()}".Trim().ToLower();
             if(input == "") break;
             
             if (multiSelect && input == "a")
@@ -94,7 +95,7 @@ public static class ListService
                 return items;
             }
 
-            if ((input == "n" || input == "p")) return new List<ListDialogItem> { new() { ItemIndex = -1, Caption = input } };
+            if (input is "n" or "p") return [new() { ItemIndex = -1, Caption = input }];
 
             var selectedIndex = (int.TryParse(input, out var index) ? index : 1);
             if (selectedIndex > items.Max(i => i.DisplayIndex)) selectedIndex = items.Max(i => i.DisplayIndex);
@@ -115,7 +116,15 @@ public static class ListService
         ConsoleService.Service.ClearRow(startRow);
         
         WriteHeader($"{header}\n");
-        foreach (var item in items) Console.WriteLine($"{item.DisplayIndex}. {item.Caption}");
+        foreach (var item in items)
+        {
+            var originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write($"{item.DisplayIndex}. ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine(item.Caption);
+            Console.ForegroundColor = originalColor;
+        }
         foreach (var selectedItem in items.Where(i => i.Selected))
         {
             ConsoleService.Service.WriteRowWithColor((startRow) + selectedItem.RowIndex, foregroundColor, backgroundColor, $"{selectedItem.DisplayIndex}. {selectedItem.Caption}");

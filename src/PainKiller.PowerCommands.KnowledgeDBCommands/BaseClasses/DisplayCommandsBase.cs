@@ -1,14 +1,11 @@
-﻿using PainKiller.PowerCommands.Configuration.DomainObjects;
-using PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
+﻿using PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
-public abstract class DisplayCommandsBase : DbCommandBase
+public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : DbCommandBase(identifier, configuration)
 {
-    
     protected static List<KnowledgeItem> Items = new();
     protected static List<KnowledgeItem> SelectedItems = new();
-    protected DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration){}
 
     public override RunResult Run()
     {
@@ -58,6 +55,6 @@ public abstract class DisplayCommandsBase : DbCommandBase
     protected void ShowSelectedItems()
     {
         WriteHeadLine("Current selected items");
-        ConsoleTableService.RenderTable(SelectedItems.Select(i => new{Name = i.Name, Source = i.SourceType, Created = i.Created, Tags = i.Tags}), this);
+        ConsoleTableService.RenderTable(SelectedItems.Select(i => new{ i.Name, Source = i.SourceType, i.Created, i.Tags}), this);
     } 
 }

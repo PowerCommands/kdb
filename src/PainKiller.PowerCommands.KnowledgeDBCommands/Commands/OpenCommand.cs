@@ -7,9 +7,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
                         arguments: "",
                           options: "",
                           example: "//First search and select one item|open")]
-public class OpenCommand : DisplayCommandsBase
+public class OpenCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public OpenCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         foreach (var item in SelectedItems.Take(2)) Open(item);
