@@ -38,23 +38,25 @@ public static class ListService
             var currentPage = 0;
             var pageSize = Console.WindowHeight - TopMargin;
             var shouldContinue = true;
+            var totalPages = (listItems.Count%pageSize)-1;
             while (shouldContinue)
             {
                 var pageItems = listItems.Skip(currentPage * pageSize).Take(pageSize).ToList();
-                var response = ListDialogPage(header, pageItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole, currentPage);
+                var lastPageFound = pageItems.Max(p => p.DisplayIndex) == listItems.Max(l => l.DisplayIndex);
+                var response = ListDialogPage(header, pageItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole, currentPage, totalPages, items.Count);
 
+                if (response.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
+                
                 if (response.Count == 0) return new();
                 if (response.Count > 1) return response.ToDictionary();
 
                 if (response.First().ItemIndex < 0)
                 {
-                    if (response.First().Caption == "n")
+                    if (response.First().Caption == "n" && !lastPageFound)
                     {
-                        if (currentPage * pageSize >= items.Count - pageSize) shouldContinue = false;
-                        else currentPage++;
+                        currentPage++;
                     }
-                    else if (currentPage > 0) currentPage--;
-                    else shouldContinue = false;
+                    else if (currentPage > 0 && response.First().Caption == "p") currentPage--;
                 }
                 else
                 {
@@ -64,16 +66,19 @@ public static class ListService
             }
         }
         ToolbarService.ClearToolbar();
-        return ListDialogPage(header, listItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole).ToDictionary();
+        var retVal = ListDialogPage(header, listItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole);
+        if (retVal.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
+        return retVal.ToDictionary();
     }
-    private static List<ListDialogItem> ListDialogPage(string header, List<ListDialogItem> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true, int currentPage = 0)
+    private static List<ListDialogItem> ListDialogPage(string header, List<ListDialogItem> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true, int currentPage = -1, int totalPages = 1, int totalItems=0)
     {
         if (clearConsole) Console.Clear();
         WriteLabel($"{header}\n");
         var startRow = Console.CursorTop;
         
+        var listCaption =  (currentPage > -1) ? multiSelect ? $"Page {currentPage+1} of {totalPages} ({totalItems} items).  Enter (n) for next page (p) for previous, (a) select all." : $"Page ({currentPage+1}) Enter (n) for next page (p) for previous" : multiSelect ? "Use (a) to select all" : "";
         var footer = multiSelect ? "Enter number(s) and use enter to select them. (blank to quit)" : "Enter a number and hit enter to select. (blank to quit)";
-        var listCaption =  (currentPage > 0) ? $"Page ({currentPage}) Enter (n) for next page (p) for previous, (a) select all." : "Use (a) to select all";
+        
         RenderList(items, startRow, listCaption, footer, foregroundColor, backgroundColor);
 
         if (items.Count == 1 && autoSelectIfOnlyOneItem)
@@ -92,7 +97,7 @@ public static class ListService
             if (multiSelect && input == "a")
             {
                 RenderList(items.Select(i => new ListDialogItem{Caption = i.Caption,DisplayIndex = i.DisplayIndex,ItemIndex = i.ItemIndex,RowIndex = i.RowIndex,Selected = true}).ToList(), startRow, listCaption, footer, foregroundColor, backgroundColor);
-                return items;
+                return [new() { ItemIndex = -1, Caption = input }];
             }
 
             if (input is "n" or "p") return [new() { ItemIndex = -1, Caption = input }];
@@ -116,18 +121,19 @@ public static class ListService
         ConsoleService.Service.ClearRow(startRow);
         
         WriteHeader($"{header}\n");
+        var padLength = items.Max(i => i.DisplayIndex) < 100 ? 3 : 4;
         foreach (var item in items)
         {
             var originalColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write($"{item.DisplayIndex}. ");
+            Console.Write($"{item.DisplayIndex}.".PadRight(padLength));
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine(item.Caption);
             Console.ForegroundColor = originalColor;
         }
         foreach (var selectedItem in items.Where(i => i.Selected))
         {
-            ConsoleService.Service.WriteRowWithColor((startRow) + selectedItem.RowIndex, foregroundColor, backgroundColor, $"{selectedItem.DisplayIndex}. {selectedItem.Caption}");
+            ConsoleService.Service.WriteRowWithColor((startRow) + selectedItem.RowIndex, foregroundColor, backgroundColor, $"{selectedItem.DisplayIndex}.".PadRight(padLength) + $"{selectedItem.Caption}");
         }
         ConsoleService.Service.ClearRow(Console.CursorTop);
         WriteHeader($"{footer} >");

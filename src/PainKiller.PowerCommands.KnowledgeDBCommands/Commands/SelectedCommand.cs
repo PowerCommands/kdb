@@ -8,15 +8,13 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
     options: "!year|!month",
     example: "//Do a simple search|find <search phrase>|//Search with two phrases, findings must contain both|find <search phrase1> <search phrase2>|//Search a phrase created a certain year|find <search phrase> --year 2022|//Search a phrase created a certain year and month|find <search phrase> --year 2022 --month 3")]
 
-public class SelectedCommand : DisplayCommandsBase
+public class SelectedCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public SelectedCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
-
     public override RunResult Run()
     {
         Console.Clear();
-        WriteHeadLine("Current selected items");
-        ConsoleTableService.RenderTable(SelectedItems.Select(i => new{Name = i.Name, Source = i.SourceType, Created = i.Created, Tags = i.Tags}), this);
+        ConsoleTableService.RenderTable(SelectedItems.Select(i => new {Name = i.Name, Source = i.SourceType, Created = i.Created, Tags = i.Tags }), this);
+        WriteHeadLine($"Current selected ({SelectedItems.Count}) items");
         ToolbarService.DrawToolbar(new[] { $"[Action] ->", "open (CTRL+O)", "edit", "delete", "tags" });
         return Ok();
     }
