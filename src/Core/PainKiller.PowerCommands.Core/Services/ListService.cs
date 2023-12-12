@@ -66,7 +66,7 @@ public static class ListService
         }
         ToolbarService.ClearToolbar();
         var retVal = ListDialogPage(header, listItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole);
-        if (retVal.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
+        if (retVal.Count > 0 && retVal.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
         return retVal.ToDictionary();
     }
     private static List<ListDialogItem> ListDialogPage(string header, List<ListDialogItem> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true, int currentPage = -1, int totalPages = 1, int totalItems=0)
