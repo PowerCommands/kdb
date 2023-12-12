@@ -45,9 +45,8 @@ public static class ListService
                 var lastPageFound = pageItems.Max(p => p.DisplayIndex) == listItems.Max(l => l.DisplayIndex);
                 var response = ListDialogPage(header, pageItems, multiSelect, autoSelectIfOnlyOneItem, foregroundColor, backgroundColor, clearConsole, currentPage, totalPages, items.Count);
 
-                if (response.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
-                
                 if (response.Count == 0) return new();
+                if (response.First().Caption == "a" && multiSelect) return listItems.ToDictionary();
                 if (response.Count > 1) return response.ToDictionary();
 
                 if (response.First().ItemIndex < 0)
