@@ -38,7 +38,7 @@ public static class ListService
             var currentPage = 0;
             var pageSize = Console.WindowHeight - TopMargin;
             var shouldContinue = true;
-            var totalPages = (listItems.Count%pageSize)-1;
+            var totalPages = (listItems.Count/pageSize)+1;
             while (shouldContinue)
             {
                 var pageItems = listItems.Skip(currentPage * pageSize).Take(pageSize).ToList();
