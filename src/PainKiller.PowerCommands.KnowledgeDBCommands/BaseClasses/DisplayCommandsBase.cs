@@ -6,6 +6,7 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
 {
     protected static List<KnowledgeItem> Items = new();
     protected static List<KnowledgeItem> SelectedItems = new();
+    protected static bool MultiSelect = false;
 
     public override RunResult Run()
     {
@@ -43,7 +44,7 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
     protected bool ShowResult(string headLine)
     {
         WriteHeadLine($"{headLine}\n");
-        var selected = ListService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), multiSelect: true);
+        var selected = ListService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), multiSelect: MultiSelect);
         if (selected.Count == 0) return false;
         
         SelectedItems.Clear();

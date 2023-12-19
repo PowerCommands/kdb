@@ -3,29 +3,6 @@ public static class ListService
 {
     private const int TopMargin = 5;
     private static readonly List<ListDialogItem> SelectedItems = new();
-    private static List<ListDialogItem> ToListDialogItems(this List<string> items)
-    {
-        var pageSize = Console.WindowHeight - TopMargin;
-        var retVal = new List<ListDialogItem>();
-        var index = 0;
-        foreach (var item in items)
-        {
-            var dialogItem = new ListDialogItem{ItemIndex = index};
-            var currentPage = index / pageSize;
-            dialogItem.DisplayIndex = index+1;
-            dialogItem.Caption = item;
-            dialogItem.RowIndex = dialogItem.DisplayIndex - (currentPage * pageSize);
-            retVal.Add(dialogItem);
-            index++;
-        }
-        return retVal;
-    }
-    private static Dictionary<int, string> ToDictionary(this List<ListDialogItem> items)
-    {
-        var dictionary = new Dictionary<int, string>();
-        foreach (var item in items) dictionary[item.ItemIndex] = item.Caption;
-        return dictionary;
-    }
     public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true)
     {
         SelectedItems.Clear();
@@ -36,7 +13,7 @@ public static class ListService
         {
             clearConsole = true;
             var currentPage = 0;
-            var pageSize = Console.WindowHeight - TopMargin;
+            var pageSize = (Console.WindowHeight < TopMargin ? TopMargin*2 : Console.WindowHeight) - TopMargin;
             var shouldContinue = true;
             var totalPages = (listItems.Count/pageSize)+1;
             while (shouldContinue)
@@ -136,6 +113,29 @@ public static class ListService
         }
         ConsoleService.Service.ClearRow(Console.CursorTop);
         WriteHeader($"{footer} >");
+    }
+    private static List<ListDialogItem> ToListDialogItems(this List<string> items)
+    {
+        var pageSize = Console.WindowHeight - TopMargin;
+        var retVal = new List<ListDialogItem>();
+        var index = 0;
+        foreach (var item in items)
+        {
+            var dialogItem = new ListDialogItem{ItemIndex = index};
+            var currentPage = index / (pageSize==0 ? 1 : pageSize);
+            dialogItem.DisplayIndex = index+1;
+            dialogItem.Caption = item;
+            dialogItem.RowIndex = dialogItem.DisplayIndex - (currentPage * pageSize);
+            retVal.Add(dialogItem);
+            index++;
+        }
+        return retVal;
+    }
+    private static Dictionary<int, string> ToDictionary(this List<ListDialogItem> items)
+    {
+        var dictionary = new Dictionary<int, string>();
+        foreach (var item in items) dictionary[item.ItemIndex] = item.Caption;
+        return dictionary;
     }
     private static void WriteHeader(string text)
     {

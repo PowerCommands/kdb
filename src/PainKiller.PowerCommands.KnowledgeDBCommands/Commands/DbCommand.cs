@@ -6,7 +6,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandsToolbar("[Press enter to view stats]|[--edit](edit file)")]
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Open the database file with your configured editor or view stats.",
-                         options: "edit|duplicates",
+                         options: "edit|duplicates|multiselect",
                          example: "//Show stats|db|//Edit database file with your configured editor|db --edit|//Show duplicates|db --duplicates")]
 public class DbCommand : DisplayCommandsBase
 {
@@ -14,6 +14,7 @@ public class DbCommand : DisplayCommandsBase
 
     public override RunResult Run()
     {
+        if (HasOption("multiselect")) MultiSelect = !MultiSelect;
         if (HasOption("edit"))
         {
             try
@@ -36,6 +37,7 @@ public class DbCommand : DisplayCommandsBase
         WriteCodeExample("Never opened count", $"{stats.NeverOpenedCount}");
         WriteCodeExample("\n File size", $"{stats.DisplayFileSize}");
         WriteCodeExample("Last updated", $"{stats.DisplayLastUpdated}");
+        WriteCodeExample("Multiselect enabled", $"{MultiSelect}");
         return Ok();
     }
     public void ShowDuplicates()
