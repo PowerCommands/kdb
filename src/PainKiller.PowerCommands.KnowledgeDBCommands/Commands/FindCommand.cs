@@ -3,15 +3,20 @@ using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandsToolbar("Options|--year (optional)|--month (optional, needs year)")]
-[PowerCommandDesign(description: "Find a knowledge item, use the index value to open, edit or delete it",
+[PowerCommandDesign(description: "Find information using a search phrase, with options if needed.",
                         arguments: "<SearchPhrase>",
-                          options: "!year|!month",
-                          example: "//Do a simple search|find <search phrase>|//Search with two phrases, findings must contain both|find <search phrase1> <search phrase2>|//Search a phrase created a certain year|find <search phrase> --year 2022|//Search a phrase created a certain year and month|find <search phrase> --year 2022 --month 3")]
-public class FindCommand : DisplayCommandsBase
+                          options: "!year|!month|ad",
+                          example: "//Do a simple search|find <search phrase>|//Search with two phrases, findings must contain both|find <search phrase1> <search phrase2>|//Search a phrase created a certain year|find <search phrase> --year 2022|//Search a phrase created a certain year and month|find <search phrase> --year 2022 --month 3|//Search a user in the Microsoft Active Directory (entry adDomain with a valid domain entry name must be added to configuration file)|find <search phrase> --ad")]
+public class FindCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public FindCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
+        if (HasOption("ad"))
+        {
+            var adCommand = new AdDirectoryCommando(Identifier, Configuration);
+            return adCommand.Run();
+        }
+
         Items = GetAllItems().Where(i => i.Name.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Tags.ToLower().Contains(Input.SingleArgument.ToLower()) || i.Uri.ToLower().Contains(Input.SingleArgument.ToLower())).OrderByDescending(i => i.Updated).ToList();
         var year = Input.OptionToInt("year");
         var month = Input.OptionToInt("month");

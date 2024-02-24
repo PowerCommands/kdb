@@ -6,9 +6,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandDesign(description: "Backup your knowledge DB file to the configured path in PowerCommandsConfiguration.yaml file, use --show option to just show your already backup up files.",
                         options: "show",
                         example: "//Backup file to the configured path in PowerCommandsConfiguration.yaml file|backup|//Show backup files|backup --show")]
-public class BackupCommand : DbCommandBase
+public class BackupCommand(string identifier, PowerCommandsConfiguration configuration) : DbCommandBase(identifier, configuration)
 {
-    public BackupCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         if (!HasOption("show"))

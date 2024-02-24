@@ -6,9 +6,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandDesign(description: "List the latest added knowledge documents.",
                         options: "!days|!weeks|url|path|onenote|file",
                         example: "//Show created items the last 3 days|latest --days 3|//Show created items the last 4 weeks.|latest --weeks 4|//Show all created files the last week|latest --week 1 --file")]
-public class LatestCommand : DisplayCommandsBase
+public class LatestCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public LatestCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration){}
     public override RunResult Run()
     {
         var sourceType = Input.GetOptionValue(new[] { "url", "onenote", "path", "file" });

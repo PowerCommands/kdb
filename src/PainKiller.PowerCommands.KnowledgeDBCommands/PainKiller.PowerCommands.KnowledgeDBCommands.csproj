@@ -32,6 +32,10 @@
 	  <Folder Include="Extensions\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="System.DirectoryServices" Version="8.0.0" />
+	</ItemGroup>
+
 
 
 </Project>

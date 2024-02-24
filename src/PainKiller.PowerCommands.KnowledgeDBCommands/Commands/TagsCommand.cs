@@ -7,9 +7,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
                         arguments:"!<name>",
                           options: "remove",
                           example: "//First search and select one item|//append|tag myNewTag|//Delete tag|tag --delete myTagNameToDelete")]
-public class TagsCommand : DisplayCommandsBase
+public class TagsCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public TagsCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         if (SelectedItems.Count == 0) return Ok();

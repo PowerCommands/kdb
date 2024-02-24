@@ -70,7 +70,7 @@ public class AddCommand : DisplayCommandsBase
         var skipFiles = !DialogService.YesNoDialog("Do you want to include the files?");
 
         var prospects = DirectoryIteratorManager.GetItemsFromDirectory(DBManager.GetAll().ToList(), Configuration.FileTypesFileName, path, true, tag: tag).Where(i => i.Exists == false && (!i.Prospect.Tags.Contains(DirectoryIteratorManager.FileTag) || !skipFiles)).ToList();
-        var table =  prospects.Select((i, idx) => new{Index = idx++, Name = i.Prospect.Name, Source = i.Prospect.SourceType, Tags= i.Prospect.Tags}).ToList();
+        var table =  prospects.Select((i, idx) => new{Index = idx, i.Prospect.Name, Source = i.Prospect.SourceType, i.Prospect.Tags}).ToList();
         ConsoleTableService.RenderTable(table, this);
         var addQuery = DialogService.YesNoDialog("Do you want to add all this items?");
         if (addQuery)

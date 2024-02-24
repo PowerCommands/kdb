@@ -1,6 +1,7 @@
 version: 1.0
 configuration:
   backupPath: C:\repos\Backup
+  adDomain: mydomain.local
   shellConfiguration:
     pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE        
     autostart: true
@@ -10,6 +11,8 @@ configuration:
   commandDesignOverrides:
   - name: find    
     suggestions: "Eskilstuna \u00F6rebro|lunch"    
+  - name: start    
+    suggestions: "ac|cheat|steam|wheel"
   repository: https://github.com/PowerCommands/PowerCommands2022
   displayTagsMaxLength: 50
   displayUrlMaxLength: 30
@@ -38,6 +41,11 @@ configuration:
     - name: Images
       path: C:\Users\%USERNAME%\OneDrive
       index: 0
+  proxyCommands:
+    - name: wc
+      workingDirctory: D:\Program\PainKiller\PainKiller.WindowsCommands
+      commands: 
+      - start
   secret:
     secrets:
     - name: kdb_gpt

@@ -4,9 +4,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandDesign(description: "Restore your database file from a previous backup",
                         example: "restore")]
-public class RestoreCommand : CommandBase<PowerCommandsConfiguration>
+public class RestoreCommand(string identifier, PowerCommandsConfiguration configuration) : CommandBase<PowerCommandsConfiguration>(identifier, configuration)
 {
-    public RestoreCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         var backupPath = IPowerCommandServices.DefaultInstance!.Configuration.BackupPath;

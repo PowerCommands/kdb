@@ -8,9 +8,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
                         arguments: "",
                           options: "",
                           example: "//First search and select one item|edit")]
-public class EditCommand : DisplayCommandsBase
+public class EditCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public EditCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         var selected = SelectedItems.FirstOrDefault();
@@ -32,7 +31,6 @@ public class EditCommand : DisplayCommandsBase
     }
     private void Edit(KnowledgeItem item, string name, string source, string tags, string url = "")
     {
-        var db = GetAllItems();
         var match = DBManager.First(item.ItemID.GetValueOrDefault());
 
         if (!string.IsNullOrEmpty(name)) match.Name = name;

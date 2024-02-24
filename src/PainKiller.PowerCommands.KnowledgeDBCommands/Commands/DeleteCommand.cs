@@ -7,9 +7,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
                         arguments: "",
                           options: "!tag",
                           example: "//First search and select one item|delete")]
-public class DeleteCommand : DisplayCommandsBase
+public class DeleteCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
-    public DeleteCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()
     {
         if (HasOption("tag")) return DeleteTag(GetOptionValue("tag"));
@@ -36,18 +35,16 @@ public class DeleteCommand : DisplayCommandsBase
     private RunResult DeleteTag(string tag)
     {
         var items = DBManager.GetAll().Where(t => t.Tags.Contains(tag)).ToList();
-        var table =  items.Select((i, idx) => new{Index = idx++, Name = i.Name, Source = i.SourceType, Tags= i.Tags}).ToList();
+        var table =  items.Select((i, idx) => new{Index = idx, i.Name, Source = i.SourceType, i.Tags}).ToList();
         ConsoleTableService.RenderTable(table, this);
         WriteCodeExample($"Rows matched by tag [{tag}]", $"{items.Count}");
 
         WriteHeadLine("Backup will be performed before deletion takes place.");
         var deleteConfirmation = DialogService.YesNoDialog($"Do you want to delete {items.Count} number of items from the database?");
-        if (deleteConfirmation)
-        {
-            var fileName = DBManager.Backup();
-            WriteLine($"File was first backed up to {fileName}");
-            DBManager.Delete(items);
-        }
+        if (!deleteConfirmation) return Ok();
+        var fileName = DBManager.Backup();
+        WriteLine($"File was first backed up to {fileName}");
+        DBManager.Delete(items);
         return Ok();
     }
 }
