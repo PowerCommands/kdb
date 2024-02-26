@@ -43,8 +43,7 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
     }
     protected bool ShowResult(string headLine)
     {
-        WriteHeadLine($"{headLine}\n");
-        var selected = ListService.ListDialog($"Search phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), multiSelect: MultiSelect);
+        var selected = ListService.ListDialog($"{headLine}\nSearch phrase(s): {Input.Raw.Replace("find ","")}", Items.Select(i => $"{i.Name} {i.SourceType} {i.Uri.Display(Configuration.DisplayUrlMaxLength)} {i.Tags.Display(Configuration.DisplayTagsMaxLength)}").ToList(), multiSelect: MultiSelect);
         if (selected.Count == 0) return false;
         
         SelectedItems.Clear();

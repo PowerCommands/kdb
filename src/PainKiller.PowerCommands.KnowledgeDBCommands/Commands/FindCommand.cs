@@ -13,7 +13,8 @@ public class FindCommand(string identifier, PowerCommandsConfiguration configura
     {
         if (HasOption("ad"))
         {
-            var adCommand = new AdDirectoryCommando(Identifier, Configuration);
+            var filter = string.IsNullOrEmpty(Input.SingleQuote) ? Input.SingleArgument : Input.SingleQuote;
+            var adCommand = new AdDirectoryCommando(Identifier, Configuration, filter);
             return adCommand.Run();
         }
 

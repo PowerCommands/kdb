@@ -4,7 +4,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
 [PowerCommandsToolbar("[Options]|--days <number>|--weeks <number>|Source type one of (--url,--onenote,--path,--file")]
 [PowerCommandDesign(description: "List the latest added knowledge documents.",
-                        options: "!days|!weeks|url|path|onenote|file",
+                        options: "opened|!days|!weeks|url|path|onenote|file",
                         example: "//Show created items the last 3 days|latest --days 3|//Show created items the last 4 weeks.|latest --weeks 4|//Show all created files the last week|latest --week 1 --file")]
 public class LatestCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
@@ -17,10 +17,16 @@ public class LatestCommand(string identifier, PowerCommandsConfiguration configu
         if (int.TryParse(Input.GetOptionValue("days"), out var index2)) number = index2;
 
         var latestDate = number == 0 ? DateTime.Now.AddDays(-7) : DateTime.Now.AddDays(-(dayFactor*number));
+        if (HasOption("opened"))
+        {
+            var takeCount = Input.OptionToInt("opened", 10);
+            Items = GetAllItems().OrderByDescending(i => i.Updated).Take(takeCount).ToList();
+            ShowResult($"Latest {Items.Count} opened items.");
+            return Ok();
+        }
         Items = GetAllItems().Where(i => i.Created > latestDate && (i.SourceType == sourceType || string.IsNullOrEmpty(sourceType))).ToList();
-        
-        ShowResult($"Latest {Items.Count} matches since {latestDate}.");
-        
+        ShowResult($"Latest added {Items.Count} matches since {latestDate.ToShortDateString()}.");
+
         return Ok();
     }
 }

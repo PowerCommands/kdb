@@ -2,6 +2,7 @@ version: 1.0
 configuration:
   backupPath: C:\repos\Backup
   adDomain: mydomain.local
+  adProperties: "displayName|mail"
   shellConfiguration:
     pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE        
     autostart: true
