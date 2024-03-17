@@ -6,12 +6,18 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandsToolbar("[Press enter to view stats]|[--edit](edit file)")]
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Open the database file with your configured editor or view stats.",
-                         options: "edit|duplicates|multiselect",
-                         example: "//Show stats|db|//Edit database file with your configured editor|db --edit|//Show duplicates|db --duplicates")]
+                         options: "edit|duplicates|multiselect|maintenance",
+                         example: "//Show stats|db|//Edit database file with your configured editor|db --edit|//Show duplicates|db --duplicates|//Run maintenance job on the DB, this will delete all broken links it can find.|db --maintenance")]
 public class DbCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
     public override RunResult Run()
     {
+        if (HasOption("maintenance"))
+        {
+            var maintenanceManager = new MaintenanceManger(Configuration.DatabaseFileName, this);
+            maintenanceManager.Run();
+            return Ok();
+        }
         if (HasOption("multiselect")) MultiSelect = !MultiSelect;
         if (HasOption("edit"))
         {
@@ -28,6 +34,7 @@ public class DbCommand(string identifier, PowerCommandsConfiguration configurati
             ShowDuplicates();
             return Ok();
         }
+        
         var stats = DBManager.GetStats();
         WriteHeadLine(" Stats");
         WriteCodeExample("Total count",$"{stats.Count}");

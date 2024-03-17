@@ -1,6 +1,19 @@
-﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
+﻿using PainKiller.PowerCommands.KnowledgeDBCommands.Enums;
+
+namespace PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
 public static class KdbExtensions
 {
+    public static ItemSourceType ToItemSourceType(this KnowledgeItem item)
+    {
+        return item.SourceType switch
+        {
+            "onenote" => ItemSourceType.OneNote,
+            "path" => ItemSourceType.Directory,
+            "url" => ItemSourceType.Url,
+            "file" => ItemSourceType.File,
+            _ => ItemSourceType.Unknown
+        };
+    }
     public static KnowledgeItem ToItem(this string editValues)
     {
         var values = editValues.Split('|');
