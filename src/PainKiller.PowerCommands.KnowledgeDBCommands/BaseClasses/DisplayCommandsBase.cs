@@ -4,6 +4,7 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
 public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfiguration configuration) : DbCommandBase(identifier, configuration)
 {
+    protected const byte MaxAutoOpenItems = 10;
     protected static List<KnowledgeItem> Items = new();
     protected static List<KnowledgeItem> SelectedItems = new();
     protected static bool MultiSelect = false;

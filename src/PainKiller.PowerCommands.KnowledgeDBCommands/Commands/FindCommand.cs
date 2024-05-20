@@ -5,8 +5,8 @@ namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 [PowerCommandsToolbar("Options|--year (optional)|--month (optional, needs year)")]
 [PowerCommandDesign(description: "Find information using a search phrase, with options if needed.",
                         arguments: "<SearchPhrase>",
-                          options: "!year|!month|ad",
-                          example: "//Do a simple search|find <search phrase>|//Search with two phrases, findings must contain both|find <search phrase1> <search phrase2>|//Search a phrase created a certain year|find <search phrase> --year 2022|//Search a phrase created a certain year and month|find <search phrase> --year 2022 --month 3|//Search a user in the Microsoft Active Directory (entry adDomain with a valid domain entry name must be added to configuration file)|find <search phrase> --ad")]
+                          options: "!year|!month|ad|open",
+                          example: "//Do a simple search|find <search phrase>|//Search with two phrases, findings must contain both|find <search phrase1> <search phrase2>|//Search a phrase created a certain year|find <search phrase> --year 2022|//Search a phrase created a certain year and month|find <search phrase> --year 2022 --month 3|//Search a user in the Microsoft Active Directory (entry adDomain with a valid domain entry name must be added to configuration file)|find <search phrase> --ad|Force open found item(s) if any|find <search phrase> --open")]
 public class FindCommand(string identifier, PowerCommandsConfiguration configuration) : DisplayCommandsBase(identifier, configuration)
 {
     public override RunResult Run()
@@ -33,6 +33,10 @@ public class FindCommand(string identifier, PowerCommandsConfiguration configura
         if (year > 0)
         {
             Items = Items.Where(i => i.Created.Year == year && (i.Created.Month == month || month == 0)).ToList();
+        }
+        if (Items.Count > 0 && HasOption("open"))
+        {
+            foreach (var item in Items.Take(count: MaxAutoOpenItems)) Open(item);
         }
         ShowResult($"Found {Items.Count} matches.");
         if (Items.Count == 1 && Configuration.ShellConfiguration.Autostart) Open(Items.First());
