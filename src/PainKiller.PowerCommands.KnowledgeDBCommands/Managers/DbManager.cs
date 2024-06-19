@@ -79,7 +79,7 @@ public class DbManager(string databaseFileName)
     public KnowledgeDbStats GetStats()
     {
         var db = StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName);
-        var stats = new KnowledgeDbStats{Count = db.Items.Count, DisplayLastUpdated = db.Items.Max(i => i.Updated).GetDisplayTimeSinceLastUpdate(),DisplayFileSize = databaseFileName.GetDisplayFormattedFileSize(),NeverOpenedCount = db.Items.Count(i => i.Updated == DateTime.MinValue)};
+        var stats = new KnowledgeDbStats{Count = db.Items.Count, DisplayLastUpdated = new[] { db.Items.Max(i => i.Updated), db.Items.Max(i => i.Created) }.Max().GetDisplayTimeSinceLastUpdate(),DisplayFileSize = databaseFileName.GetDisplayFormattedFileSize(),NeverOpenedCount = db.Items.Count(i => i.Updated == DateTime.MinValue)};
         return stats;
     }
     public bool Exists(KnowledgeItem item) => StorageService<KnowledgeDatabase>.Service.GetObject(databaseFileName).Items.Any(i => i.Name == item.Name && i.SourceType == item.SourceType);
