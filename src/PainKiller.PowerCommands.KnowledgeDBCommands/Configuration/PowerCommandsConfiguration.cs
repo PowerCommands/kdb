@@ -12,6 +12,6 @@ public class PowerCommandsConfiguration : CommandsConfiguration
     public string AdDomain { get; set; } = "mydomain.local";
     public string AdProperties { get; set; } = "displayName|mail";
     public ShellConfigurationItem ShellConfiguration { get; set; } = new();
-    public readonly string DatabaseFileName = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "kdb", $"{nameof(KnowledgeDatabase)}.data");
+    public readonly string DatabaseFileName = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, $"{nameof(KnowledgeDatabase)}.data");
     public readonly string FileTypesFileName = Path.Combine(AppContext.BaseDirectory, "KnowledgeItemFileTypes.json");
 }

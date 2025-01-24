@@ -2,9 +2,9 @@
 
 public enum ItemSourceType
 {
-    File,
-    Directory,
-    Url,
-    OneNote,
-    Unknown
+    File = 3,
+    Directory = 2,
+    Url = 0,
+    OneNote = 1,
+    Unknown = 4
 }

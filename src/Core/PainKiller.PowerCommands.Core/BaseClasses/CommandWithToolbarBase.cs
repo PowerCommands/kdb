@@ -6,7 +6,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
     public abstract class CommandWithToolbarBase<TConfig> : CommandBase<TConfig> where TConfig : new()
     {
         protected string LatestHighlightedCommand = string.Empty;
-        
+
         private bool _toolbarIsInitialized;
         private readonly bool _autoShowToolbar;
         private ConsoleColor[]? _colors;
@@ -19,7 +19,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
             ReadLineService.CommandHighlighted += ReadLineService_CommandHighlighted;
             ToolbarAttribute = this.GetToolbarAttribute();
         }
-        
+
         public override RunResult Run()
         {
             return Ok();
@@ -51,7 +51,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
         }
         protected void DrawToolbar()
         {
-            if(!_toolbarIsInitialized) InitializeToolbar();
+            if (!_toolbarIsInitialized) InitializeToolbar();
             ToolbarService.DrawToolbar(Labels.ToArray(), _colors);
         }
     }

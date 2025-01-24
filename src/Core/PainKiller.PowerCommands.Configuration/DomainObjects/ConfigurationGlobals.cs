@@ -1,15 +1,20 @@
-﻿namespace PainKiller.PowerCommands.Configuration.DomainObjects;
-
-public static class ConfigurationGlobals
+﻿namespace PainKiller.PowerCommands.Configuration.DomainObjects
 {
-    public const string Prompt = "pcm>";
-    public const string MainConfigurationFile = "PowerCommandsConfiguration.yaml";
-    public const string SecurityFileName = "security.yaml";
-    public const string WhatsNewFileName = "whats_new.md";
-    public const char ArraySplitter = '|';
-    public const string SetupConfigurationFile = "setup.yaml";
-    public const string EncryptionEnvironmentVariableName = "_encryptionManager";
+    public static class ConfigurationGlobals
+    {
+        public const string ApplicationName = "Kdb";
+        public const string MainConfigurationFile = "PowerCommandsConfiguration.yaml";
+        public const string SecurityFileName = "security.yaml";
+        public const string WhatsNewFileName = "whats_new.md";
+        public const char ArraySplitter = '|';
+        public const string SetupConfigurationFile = "setup.yaml";
+        public const string EncryptionEnvironmentVariableName = "_encryptionManager";
 
-    public static readonly string ApplicationDataFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{nameof(PowerCommands)}";
-    public static readonly string MainConfigurationFileFullPath = Path.Combine(AppContext.BaseDirectory, MainConfigurationFile);
+        public static readonly string ApplicationDataFolder = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{nameof(PowerCommands)}", ApplicationName);
+        public static readonly string EnvironmentVariableName = $"{nameof(PowerCommands)}_{ApplicationName}";
+
+        private static string _prompt = "pcm>";
+        public static string GetPrompt() => _prompt;
+        public static void SetPrompt(string prompt = "Kdb>") => _prompt = prompt;
+    }
 }

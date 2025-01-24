@@ -11,10 +11,10 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 using PainKiller.PowerCommands.Shared.Enums;
 
 namespace PainKiller.PowerCommands.Bootstrap;
-public partial class PowerCommandsManager : IPowerCommandsManager
+public partial class PowerCommandsManager(IExtendedPowerCommandServices<PowerCommandsConfiguration> services) : IPowerCommandsManager
 {
-    public readonly IExtendedPowerCommandServices<PowerCommandsConfiguration> Services;
-    public PowerCommandsManager(IExtendedPowerCommandServices<PowerCommandsConfiguration> services) { Services = services; }
+    public readonly IExtendedPowerCommandServices<PowerCommandsConfiguration> Services = services;
+
     public void Run(string[] args)
     {
         var runFlow = new RunFlowManager(args);
@@ -23,16 +23,16 @@ public partial class PowerCommandsManager : IPowerCommandsManager
             try
             {
                 RunCustomCode(runFlow);
-                var promptText = runFlow.CurrentRunResultStatus == RunResultStatus.Async ? "" : $"\n{ConfigurationGlobals.Prompt}";
+                var promptText = runFlow.CurrentRunResultStatus == RunResultStatus.Async ? "" : $"\n{ConfigurationGlobals.GetPrompt()}";
                 runFlow.Raw = runFlow.RunAutomatedAtStartup ? string.Join(' ', args) : ReadLine.ReadLineService.Service.Read(prompt: promptText);
                 if (string.IsNullOrEmpty(runFlow.Raw.Trim())) continue;
                 var interpretedInput = runFlow.Raw.Interpret();
                 if (runFlow.RunAutomatedAtStartup)
                 {
                     Services.Diagnostic.Message($"Started up with args: {interpretedInput.Raw}");
-                    ConsoleService.Service.Write($"{nameof(PowerCommandsManager)}", ConfigurationGlobals.Prompt, null);
+                    ConsoleService.Service.Write($"{nameof(PowerCommandsManager)}", ConfigurationGlobals.GetPrompt());
                     ConsoleService.Service.Write($"{nameof(PowerCommandsManager)} automated startup", $"{interpretedInput.Identifier}", ConsoleColor.Blue);
-                    ConsoleService.Service.WriteLine($"{nameof(PowerCommandsManager)} automated startup", interpretedInput.Raw.Replace($"{interpretedInput.Identifier}",""), null);
+                    ConsoleService.Service.WriteLine($"{nameof(PowerCommandsManager)} automated startup", interpretedInput.Raw.Replace($"{interpretedInput.Identifier}",""));
                     interpretedInput = runFlow.InitializeRunAutomation(interpretedInput);
                 }
                 Services.Logger.LogInformation($"Console input Identifier:{interpretedInput.Identifier} raw:{interpretedInput.Raw}");
@@ -62,7 +62,7 @@ public partial class PowerCommandsManager : IPowerCommandsManager
             }
         }
         if (string.IsNullOrEmpty(runFlow.ContinueWith)) return;
-        Run(new []{runFlow.ContinueWith });
+        Run([runFlow.ContinueWith]);
     }
     private void RunResultHandler(RunResult runResult)
     {
