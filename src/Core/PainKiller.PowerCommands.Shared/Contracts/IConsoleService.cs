@@ -19,6 +19,8 @@
         void WriteUrl(string scope, string text, bool writeLog = true);
 
         void ClearRow(int top);
+        void Clear();
+        void WritePrompt();
         void WriteRowWithColor(int top, ConsoleColor foregroundColor, ConsoleColor backgroundColor, string rowContent);
     }
 }

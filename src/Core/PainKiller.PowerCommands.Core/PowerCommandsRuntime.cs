@@ -88,7 +88,7 @@
                 command.RunAsync().ContinueWith((_) =>
                 {
                     command.RunCompleted();
-                    Console.Write(ConfigurationGlobals.GetPrompt());
+                    ConsoleService.Service.WritePrompt();
                 });
                 Latest = new RunResult(command, input, "Command running async operation", RunResultStatus.Async);
             }

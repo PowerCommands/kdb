@@ -15,6 +15,6 @@ public class OCommand : OpenCommand
         Run();
         ToolbarService.ClearToolbar();
         ConsoleService.Service.ClearRow(Console.CursorTop);
-        Write(ConfigurationGlobals.GetPrompt());
+        Write(Configuration.Prompt);
     };
 }

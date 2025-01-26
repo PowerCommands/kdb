@@ -44,7 +44,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
             if (suggestions.Count == 0) suggestions.AddRange(attribute.Suggestions.Split(ConfigurationGlobals.ArraySplitter));
             if (suggestions.Count == 0) return;
             Labels.Clear();
-            Labels.AddRange(suggestions);
+            if(suggestions.Any(s => !string.IsNullOrEmpty(s))) Labels.AddRange(suggestions);
             var attributeToolbar = this.GetToolbarAttribute();
             if (attributeToolbar != null) _colors = attributeToolbar.Colors;
             _toolbarIsInitialized = true;

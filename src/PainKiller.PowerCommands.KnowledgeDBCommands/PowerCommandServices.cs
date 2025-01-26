@@ -17,11 +17,12 @@ public class PowerCommandServices : IExtendedPowerCommandServices<PowerCommandsC
         Runtime = new PowerCommandsRuntime<PowerCommandsConfiguration>(ExtendedConfiguration, Diagnostic); 
         Logger = GetLoggerManager.GetFileLogger(ExtendedConfiguration.Log.FileName.GetSafePathRegardlessHowApplicationStarted(ExtendedConfiguration.Log.FilePath),ExtendedConfiguration.Log.RollingIntervall,ExtendedConfiguration.Log.RestrictedToMinimumLevel);
         DefaultConsoleService = ConsoleService.Service;
+        InfoPanelManager = new InfoPanelManager(Configuration.InfoPanel);
         
         var suggestions = new List<string>(Runtime.CommandIDs);
         suggestions.AddRange(Runtime.Commands.Where(c => !string.IsNullOrEmpty(c.GetDefaultParameter())).Select(c => $"{c.Identifier} {c.GetDefaultParameter()}").ToList());
 
-        ReadLineService.InitializeAutoComplete(history: new string[]{},suggestions: suggestions.ToArray());
+        ReadLineService.InitializeAutoComplete(history: [],suggestions: suggestions.ToArray());
         IPowerCommandServices.DefaultInstance = this;
     }
 
@@ -33,4 +34,5 @@ public class PowerCommandServices : IExtendedPowerCommandServices<PowerCommandsC
     public ILogger Logger { get; }
     public IDiagnosticManager Diagnostic { get; }
     public IConsoleService DefaultConsoleService { get; }
+    public IInfoPanelManager InfoPanelManager { get; }
 }

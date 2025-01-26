@@ -84,6 +84,8 @@ namespace PainKiller.PowerCommands.Core.Services
             OnWriteToOutput($"<p {_colorStyleCritical}>{text}</p>\n");
         }
         public void ClearRow(int top) { }
+        public void Clear() { }
+        public void WritePrompt() { }
         public void WriteRowWithColor(int top, ConsoleColor foregroundColor, ConsoleColor backgroundColor, string rowContent) { }
 
         private void WriteToLog(string scope, string message, LogLevel level = LogLevel.Information)

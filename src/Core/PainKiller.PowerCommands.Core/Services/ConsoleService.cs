@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace PainKiller.PowerCommands.Core.Services
 {
@@ -112,7 +111,6 @@ namespace PainKiller.PowerCommands.Core.Services
             if (writeLog) WriteToLog(scope, $"{text}");
             OnWriteToOutput($"{text}\n");
         }
-
         public void ClearRow(int top)
         {
             var originalLeft = Console.CursorLeft;
@@ -124,7 +122,14 @@ namespace PainKiller.PowerCommands.Core.Services
             Console.Write(blankRow);
             Console.SetCursorPosition(originalLeft, originalTop);
         }
-
+        public void Clear()
+        {
+            Console.Clear();
+            Console.WriteLine("\x1b[3J");   //This magic ANSI sequence tells the console to clear the whole buffer and scrollbars, it needs a Console.Clear before and after, just in case, should work on most operating systems.
+            Console.Clear();
+            Console.CursorTop = IPowerCommandServices.DefaultInstance != null ? IPowerCommandServices.DefaultInstance.Configuration.InfoPanel.Height : 2;
+        }
+        public void WritePrompt() => Console.Write(IPowerCommandServices.DefaultInstance?.Configuration.Prompt);
         public void WriteRowWithColor(int top, ConsoleColor foregroundColor, ConsoleColor backgroundColor, string rowContent)
         {
             int originalLeft = Console.CursorLeft;

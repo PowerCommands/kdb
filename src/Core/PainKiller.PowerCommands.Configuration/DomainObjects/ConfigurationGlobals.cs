@@ -12,9 +12,5 @@
 
         public static readonly string ApplicationDataFolder = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\{nameof(PowerCommands)}", ApplicationName);
         public static readonly string EnvironmentVariableName = $"{nameof(PowerCommands)}_{ApplicationName}";
-
-        private static string _prompt = "pcm>";
-        public static string GetPrompt() => _prompt;
-        public static void SetPrompt(string prompt = "Kdb>") => _prompt = prompt;
     }
 }

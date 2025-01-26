@@ -9,6 +9,7 @@ namespace PainKiller.PowerCommands.Shared.Contracts
         ILogger Logger { get; }
         IDiagnosticManager Diagnostic { get; }
         IConsoleService DefaultConsoleService { get; }
+        IInfoPanelManager InfoPanelManager { get; }
         public static IPowerCommandServices? DefaultInstance { get; protected set; }
     }
 }

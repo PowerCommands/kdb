@@ -12,12 +12,15 @@ public static class Startup
 {
     private static readonly string SetupFileName = Path.Combine(AppContext.BaseDirectory, ConfigurationGlobals.SetupConfigurationFile);
 
-    public static PowerCommandsManager ConfigureServices()
+    public static Managers.PowerCommandsManager ConfigureServices()
     {
+        Console.Title = "KDB 1.1";
         var services = PowerCommandServices.Service;
         
         services.Configuration.Environment.InitializeValues();
         services.Logger.LogInformation("Program started, configuration read");
+
+        if (services.Configuration.InfoPanel.Use) services.InfoPanelManager.StartInfoPanelAsync();
 
         if (!File.Exists(SetupFileName))
         {
@@ -31,9 +34,8 @@ public static class Startup
         }
         ConsoleService.Service.WriteLine(nameof(Startup), "\nUse the tab key to cycle trough available commands, suggestions and options.\nUse <command name> --help or describe <search phrase> to display documentation.", null);
         ConsoleService.Service.WriteLine(nameof(Startup), "\nUse up or down key  to cycle trough command history.", null);
-        return new PowerCommandsManager(services);
+        return new Managers.PowerCommandsManager(services);
     }
-
     private static void InitSecret()
     {
         try
@@ -66,4 +68,5 @@ public static class Startup
             Console.WriteLine(ex.ToString());
         }
     }
+
 }

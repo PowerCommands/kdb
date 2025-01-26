@@ -50,7 +50,7 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
         SelectedItems.Clear();
         foreach (var key in selected.Keys) SelectedItems.Add(Items[key]);
         
-        ToolbarService.DrawToolbar(new[] { $"[Action] ->", "open (CTRL+O)", "edit", "delete", "tags" });
+        ToolbarService.DrawToolbar([$"[Action] ->", "open (CTRL+O)", "edit", "delete", "tags"]);
         return true;
     }
     protected void ShowSelectedItems()

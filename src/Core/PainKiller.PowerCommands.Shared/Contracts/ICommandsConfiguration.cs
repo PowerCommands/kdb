@@ -5,6 +5,7 @@ namespace PainKiller.PowerCommands.Shared.Contracts
     public interface ICommandsConfiguration
     {
         bool ShowDiagnosticInformation { get; set; }
+        public string Prompt { get; set; }
         string DefaultCommand { get; set; }
         public string CodeEditor { get; set; }
         string Repository { get; set; }
@@ -14,5 +15,6 @@ namespace PainKiller.PowerCommands.Shared.Contracts
         List<BaseComponentConfiguration> Components { get; set; }
         SecretConfiguration Secret { get; set; }
         EnvironmentConfiguration Environment { get; set; }
+        InfoPanelConfiguration InfoPanel { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 {
     public static class ListService
     {
-        private const int TopMargin = 5;
+        private const int TopMargin = 6;
         private static readonly List<ListDialogItem> SelectedItems = new();
         public static Dictionary<int, string> ListDialog(string header, List<string> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true)
         {
@@ -49,7 +49,7 @@
         }
         private static List<ListDialogItem> ListDialogPage(string header, List<ListDialogItem> items, bool multiSelect = false, bool autoSelectIfOnlyOneItem = true, ConsoleColor foregroundColor = ConsoleColor.White, ConsoleColor backgroundColor = ConsoleColor.Blue, bool clearConsole = true, int currentPage = -1, int totalPages = 1, int totalItems = 0)
         {
-            if (clearConsole) Console.Clear();
+            if (clearConsole) ConsoleService.Service.Clear();
             WriteLabel($"{header}\n");
             var startRow = Console.CursorTop;
 

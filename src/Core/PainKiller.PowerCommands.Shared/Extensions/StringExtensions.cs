@@ -225,5 +225,19 @@ namespace PainKiller.PowerCommands.Shared.Extensions
             var extension = fileInfo.Extension.ToLowerInvariant();
             return PlainTextFileContent.ContainsKey(extension);
         }
+        public static string GetCompressedPath(this string path, int maxLength)
+        {
+            if (path.Length <= maxLength)
+                return path;
+
+            string ellipsis = "...";
+
+            // Behåll de första och sista delarna av sökvägen
+            int keepLength = (maxLength - ellipsis.Length) / 2;
+            string start = path.Substring(0, keepLength);
+            string end = path.Substring(path.Length - keepLength);
+
+            return $"{start}{ellipsis}{end}";
+        }
     }
 }

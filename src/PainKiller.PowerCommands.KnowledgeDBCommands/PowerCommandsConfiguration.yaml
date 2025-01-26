@@ -1,6 +1,7 @@
 version: 1.0
 configuration:
   backupPath: C:\repos\Backup
+  prompt: "kdb>"
   adDomain: mydomain.local
   adProperties: "displayName|mail"
   shellConfiguration:
@@ -9,6 +10,12 @@ configuration:
   showDiagnosticInformation: false
   defaultCommand: find  
   codeEditor: C:\Users\%USERNAME%\AppData\Local\Programs\Microsoft VS Code\Code.exe
+  infoPanel:
+    use: true
+    autoAdjustOnResize: true
+    color: DarkMagenta
+    height: 2
+    updateIntervalSeconds: 1
   commandDesignOverrides:
   - name: find    
     suggestions: "Eskilstuna \u00F6rebro|lunch"    

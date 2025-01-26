@@ -28,7 +28,7 @@ public class DbCommand(string identifier, PowerCommandsConfiguration configurati
             catch (Exception) { return BadParameterError("Your editor must be included in Path environment variables"); }
             return Ok();
         }
-        Console.Clear();
+        ConsoleService.Service.Clear();
         if (HasOption("duplicates"))
         {
             ShowDuplicates();

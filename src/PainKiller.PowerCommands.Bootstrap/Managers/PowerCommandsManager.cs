@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using PainKiller.PowerCommands.Configuration.DomainObjects;
 using PainKiller.PowerCommands.Core.Commands;
 using PainKiller.PowerCommands.Core.Extensions;
 using PainKiller.PowerCommands.Core.Managers;
@@ -10,7 +9,7 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Configuration;
 using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 using PainKiller.PowerCommands.Shared.Enums;
 
-namespace PainKiller.PowerCommands.Bootstrap;
+namespace PainKiller.PowerCommands.Bootstrap.Managers;
 public partial class PowerCommandsManager(IExtendedPowerCommandServices<PowerCommandsConfiguration> services) : IPowerCommandsManager
 {
     public readonly IExtendedPowerCommandServices<PowerCommandsConfiguration> Services = services;
@@ -23,14 +22,14 @@ public partial class PowerCommandsManager(IExtendedPowerCommandServices<PowerCom
             try
             {
                 RunCustomCode(runFlow);
-                var promptText = runFlow.CurrentRunResultStatus == RunResultStatus.Async ? "" : $"\n{ConfigurationGlobals.GetPrompt()}";
+                var promptText = runFlow.CurrentRunResultStatus == RunResultStatus.Async ? "" : $"\n{services.Configuration.Prompt}";
                 runFlow.Raw = runFlow.RunAutomatedAtStartup ? string.Join(' ', args) : ReadLine.ReadLineService.Service.Read(prompt: promptText);
                 if (string.IsNullOrEmpty(runFlow.Raw.Trim())) continue;
                 var interpretedInput = runFlow.Raw.Interpret();
                 if (runFlow.RunAutomatedAtStartup)
                 {
                     Services.Diagnostic.Message($"Started up with args: {interpretedInput.Raw}");
-                    ConsoleService.Service.Write($"{nameof(PowerCommandsManager)}", ConfigurationGlobals.GetPrompt());
+                    ConsoleService.Service.Write($"{nameof(PowerCommandsManager)}", services.Configuration.Prompt);
                     ConsoleService.Service.Write($"{nameof(PowerCommandsManager)} automated startup", $"{interpretedInput.Identifier}", ConsoleColor.Blue);
                     ConsoleService.Service.WriteLine($"{nameof(PowerCommandsManager)} automated startup", interpretedInput.Raw.Replace($"{interpretedInput.Identifier}",""));
                     interpretedInput = runFlow.InitializeRunAutomation(interpretedInput);
