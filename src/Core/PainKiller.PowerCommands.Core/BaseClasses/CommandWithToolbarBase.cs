@@ -40,7 +40,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
         private void InitializeToolbar()
         {
             var attribute = this.GetPowerCommandAttribute();
-            var suggestions = ToolbarAttribute == null ? Labels.ToList() : ToolbarAttribute.Labels.Split(ConfigurationGlobals.ArraySplitter).ToList();
+            var suggestions = ToolbarAttribute == null ? Labels.ToList() : ToolbarAttribute.Labels.ToList();
             if (suggestions.Count == 0) suggestions.AddRange(attribute.Suggestions.Split(ConfigurationGlobals.ArraySplitter));
             if (suggestions.Count == 0) return;
             Labels.Clear();

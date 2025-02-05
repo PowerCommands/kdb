@@ -3,7 +3,7 @@ using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("[Press enter to view stats]|[--edit](edit file)")]
+[PowerCommandsToolbar(["[Press enter to view stats]","[--edit](edit file)"])]
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Open the database file with your configured editor or view stats.",
                          options: "edit|duplicates|multiselect|maintenance",

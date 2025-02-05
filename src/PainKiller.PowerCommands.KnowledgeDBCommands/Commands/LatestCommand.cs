@@ -2,7 +2,7 @@
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("[Options]|--days <number>|--weeks <number>|Source type one of (--url,--onenote,--path,--file")]
+[PowerCommandsToolbar(["[Options]", "--days <number>","--weeks <number>","Source type one of (--url,--onenote,--path,--file"])]
 [PowerCommandDesign(description: "List the latest added knowledge documents.",
                         options: "opened|!days|!weeks|url|path|onenote|file",
                         example: "//Show created items the last 3 days|latest --days 3|//Show created items the last 4 weeks.|latest --weeks 4|//Show all created files the last week|latest --week 1 --file")]

@@ -103,6 +103,11 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
         public void WriteWarning(string output) => _console.WriteWarning(GetType().Name, output);
         public void WriteError(string output) => _console.WriteError(GetType().Name, output);
         public void WriteCritical(string output) => _console.WriteCritical(GetType().Name, output);
+        public void WriteSeparatorLine()
+        {
+            Console.WriteLine("");
+            WriteLine("".PadLeft(Console.WindowWidth - 2, '-'));
+        }
         protected void OverwritePreviousLine(string output)
         {
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);

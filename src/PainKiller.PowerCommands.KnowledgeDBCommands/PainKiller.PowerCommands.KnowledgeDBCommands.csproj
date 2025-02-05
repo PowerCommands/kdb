@@ -8,6 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\ArchitectureProtocol\src\SecTools.ArchitectureProtocol\Third party components\PainKiller.SearchLib\PainKiller.SearchLib.csproj" />
 		<ProjectReference Include="..\Core\PainKiller.PowerCommands.Configuration\PainKiller.PowerCommands.Configuration.csproj" />
 		<ProjectReference Include="..\Core\PainKiller.PowerCommands.Core\PainKiller.PowerCommands.Core.csproj" />
 		<ProjectReference Include="..\Core\PainKiller.PowerCommands.ReadLine\PainKiller.PowerCommands.ReadLine.csproj" />

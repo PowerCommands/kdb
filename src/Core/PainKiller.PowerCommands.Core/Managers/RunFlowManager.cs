@@ -20,5 +20,6 @@
             retVal = raw.Interpret("commands");
             return retVal;
         }
+        public static bool CommandIsRunning { get; set; }
     }
 }

@@ -2,7 +2,7 @@ using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("Options|--year (optional)|--month (optional, needs year)")]
+[PowerCommandsToolbar(["Options|--year (optional)","--month (optional, needs year)"])]
 [PowerCommandDesign(description: "Find information using a search phrase, with options if needed.",
                         arguments: "<SearchPhrase>",
                           options: "!year|!month|ad|open",

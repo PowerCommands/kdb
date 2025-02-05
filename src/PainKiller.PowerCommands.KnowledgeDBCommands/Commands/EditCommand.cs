@@ -3,7 +3,7 @@ using PainKiller.PowerCommands.KnowledgeDBCommands.Extensions;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("Press -> [Enter]")]
+[PowerCommandsToolbar(["Press -> [Enter]"])]
 [PowerCommandDesign(  description: "Edit selected item",
                         arguments: "",
                           options: "",

@@ -35,11 +35,11 @@ public partial class PowerCommandsManager(IExtendedPowerCommandServices<PowerCom
                     interpretedInput = runFlow.InitializeRunAutomation(interpretedInput);
                 }
                 Services.Logger.LogInformation($"Console input Identifier:{interpretedInput.Identifier} raw:{interpretedInput.Raw}");
-                Services.Diagnostic.Start();
+                RunFlowManager.CommandIsRunning = true;
                 var runResult = Services.Runtime.ExecuteCommand($"{runFlow.Raw}");
                 runFlow.CurrentRunResultStatus = runResult.Status;
                 RunResultHandler(runResult);
-                Services.Diagnostic.Stop();
+                RunFlowManager.CommandIsRunning = false;
                 if (runFlow.RunOnceThenQuit) runFlow.CurrentRunResultStatus = RunResultStatus.Quit;
                 if(string.IsNullOrEmpty(runResult.ContinueWith)) continue;
                 runFlow.ContinueWith = runResult.ContinueWith;
@@ -58,6 +58,10 @@ public partial class PowerCommandsManager(IExtendedPowerCommandServices<PowerCom
             {
                 Services.Logger.LogError(e,"Unknown error");
                 ConsoleService.Service.WriteError(GetType().Name, "Unknown error occurred, please try again");
+            }
+            finally
+            {
+                RunFlowManager.CommandIsRunning = false;
             }
         }
         if (string.IsNullOrEmpty(runFlow.ContinueWith)) return;

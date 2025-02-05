@@ -2,7 +2,7 @@ using PainKiller.PowerCommands.KnowledgeDBCommands.BaseClasses;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("Press -> [Enter]")]
+[PowerCommandsToolbar(["Press -> [Enter]"])]
 [PowerCommandDesign(  description: "Delete the current selected item",
                         arguments: "",
                           options: "!tag",

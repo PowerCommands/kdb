@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PainKiller.PowerCommands.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PainKiller.PowerCommands.Core", "Core\PainKiller.PowerCommands.Core\PainKiller.PowerCommands.Core.csproj", "{86EF329D-D12E-4BA6-8C86-BF498FAEA242}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PainKiller.SearchLib", "..\..\ArchitectureProtocol\src\SecTools.ArchitectureProtocol\Third party components\PainKiller.SearchLib\PainKiller.SearchLib.csproj", "{6574B2EA-6A14-40AA-8270-6F4B80C34D3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,10 @@ Global
 		{86EF329D-D12E-4BA6-8C86-BF498FAEA242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86EF329D-D12E-4BA6-8C86-BF498FAEA242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86EF329D-D12E-4BA6-8C86-BF498FAEA242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6574B2EA-6A14-40AA-8270-6F4B80C34D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6574B2EA-6A14-40AA-8270-6F4B80C34D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6574B2EA-6A14-40AA-8270-6F4B80C34D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6574B2EA-6A14-40AA-8270-6F4B80C34D3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -77,6 +83,7 @@ Global
 		{68062DB9-6281-493B-9F7B-7B740051E064} = {4F52B8D3-D980-4D53-A2DF-1A80C35DE99E}
 		{C1863FC4-B141-4278-9F04-26D3271FE52A} = {4F52B8D3-D980-4D53-A2DF-1A80C35DE99E}
 		{86EF329D-D12E-4BA6-8C86-BF498FAEA242} = {4F52B8D3-D980-4D53-A2DF-1A80C35DE99E}
+		{6574B2EA-6A14-40AA-8270-6F4B80C34D3E} = {40C31577-61E6-4337-8CB7-68D7B0FD5B08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CEFD0AAC-83D9-4B30-ABFA-67E1784F85B9}

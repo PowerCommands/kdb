@@ -3,7 +3,7 @@ using PainKiller.PowerCommands.ReadLine;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandsToolbar("Press -> [Enter]")]
+[PowerCommandsToolbar(["Press -> [Enter]"])]
 [PowerCommandDesign(  description: "Open the current selected item",
     arguments: "",
     options: "",
