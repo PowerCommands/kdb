@@ -14,7 +14,7 @@ public static class Startup
 
     public static Managers.PowerCommandsManager ConfigureServices()
     {
-        Console.Title = "KDB 1.1";
+        Console.Title = "KDB 1.1"; 
         var services = PowerCommandServices.Service;
         
         services.Configuration.Environment.InitializeValues();
