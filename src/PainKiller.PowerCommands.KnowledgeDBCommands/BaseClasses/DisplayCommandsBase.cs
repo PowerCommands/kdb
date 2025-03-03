@@ -18,12 +18,13 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
         DBManager.RefreshUpdated(match);
 
         IShellExecuteManager? shellExecuteManager = null;
-        switch (match.SourceType)
+        switch (match.SourceType.ToLower())
         {
             case "onenote":
                 shellExecuteManager = new OneNoteManager();
                 break;
             case "path":
+            case "directory":
                 shellExecuteManager = new OpenFolderManager();
                 break;
             case "url":
@@ -31,11 +32,12 @@ public abstract class DisplayCommandsBase(string identifier, PowerCommandsConfig
                 shellExecuteManager = new BrowserManager();
                 break;
             default:
-                WriteLine($"The source type {match.SourceType} is not supported, only onenote path or url is valid, you can change that with --edit --source option on the object, see examples");
+                shellExecuteManager = new BrowserManager();
+                WriteLine($"The source type {match.SourceType} is not supported, default open method will be used, it may not work properly.");
                 break;
         }
         WriteHeadLine($"Opening [{match.Uri}] with [{shellExecuteManager?.GetType().Name}]");
-        shellExecuteManager?.Run(Configuration.ShellConfiguration, match.Uri);
+        shellExecuteManager?.Run(Configuration.Shell, match.Uri);
     }
     protected void Details(KnowledgeItem item)
     {

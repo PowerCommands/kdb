@@ -1,4 +1,6 @@
-﻿using PainKiller.SearchLib.DomainObjects;
+﻿using System;
+using System.IO;
+using PainKiller.SearchLib.DomainObjects;
 using PainKiller.SearchLib.Enums;
 
 namespace PainKiller.SearchLib.Indexing;
@@ -14,9 +16,11 @@ public class TextIndexManager(string documentFolder, string indexFile) : BaseInd
             var lines = File.ReadAllLines(file);
             for (int i = 0; i < lines.Length; i++)
             {
+                var currentPage = GetPageNumber(lines, i);
                 Documents.Add(new Document
                 {
                     DocId = $"{file}, line {i}",
+                    PageNumber = currentPage,
                     Type = DocumentType.Text,
                     Tokens = lines[i].ToLower().Split(new[] { ' ', '.', ',', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)
                 });
@@ -40,6 +44,19 @@ public class TextIndexManager(string documentFolder, string indexFile) : BaseInd
         var end = Math.Min(allLines.Length - 1, lineIndex + 5);
 
         return string.Join("\n", allLines[start..(end + 1)]);
+    }
+
+    public string GetPageNumber(string[] lines, int currentLineIndex)
+    {
+        for (int i = currentLineIndex; i > -1; i--)
+        {
+            var line = lines[i];
+            if (line.StartsWith("PageCounter"))
+            {
+                return line.Replace($"PageCounter ", "");
+            }
+        }
+        return "1";
     }
     
 }

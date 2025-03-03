@@ -11,8 +11,9 @@ namespace PainKiller.SerilogExtensions
         {
             switch (logLevel)
             {
-                case LogLevel.Debug:
                 case LogLevel.Trace:
+                    return LogEventLevel.Verbose;
+                case LogLevel.Debug:
                     return LogEventLevel.Debug;
                 case LogLevel.Information:
                     return LogEventLevel.Information;

@@ -4,14 +4,15 @@ configuration:
   prompt: "kdb>"
   adDomain: mydomain.local
   adProperties: "displayName|mail"
-  shellConfiguration:
+  shell:
     pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE        
     autostart: true
+  
   showDiagnosticInformation: false
   defaultCommand: find  
   codeEditor: C:\Users\%USERNAME%\AppData\Local\Programs\Microsoft VS Code\Code.exe
   infoPanel:
-    use: true
+    use: false
     autoAdjustOnResize: true
     color: DarkMagenta
     height: 2
@@ -33,7 +34,7 @@ configuration:
     fileName: powercommands.log
     filePath: logs
     rollingIntervall: Day
-    restrictedToMinimumLevel: Information
+    restrictedToMinimumLevel: Debug
     component: PainKiller.SerilogExtensions.dll
     checksum: 173831af7e77b8bd33e32fce0b4e646d
     name: Serialog

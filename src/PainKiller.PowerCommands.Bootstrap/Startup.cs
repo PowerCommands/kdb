@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Reflection;
+using Microsoft.Extensions.Logging;
+using PainKiller.PowerCommands.Bootstrap.Managers;
 using PainKiller.PowerCommands.Configuration;
 using PainKiller.PowerCommands.Configuration.DomainObjects;
 using PainKiller.PowerCommands.Configuration.Extensions;
@@ -12,13 +14,14 @@ public static class Startup
 {
     private static readonly string SetupFileName = Path.Combine(AppContext.BaseDirectory, ConfigurationGlobals.SetupConfigurationFile);
 
-    public static Managers.PowerCommandsManager ConfigureServices()
+    public static PowerCommandsManager ConfigureServices()
     {
-        Console.Title = "KDB 1.1"; 
+        var title = $"{ConfigurationGlobals.ApplicationName} {ReflectionService.Service.GetVersion(Assembly.GetExecutingAssembly())}";
+        Console.Title = title; 
         var services = PowerCommandServices.Service;
         
         services.Configuration.Environment.InitializeValues();
-        services.Logger.LogInformation("Program started, configuration read");
+        services.Logger.LogInformation($"Program {title} started, configuration read");
 
         if (services.Configuration.InfoPanel.Use) services.InfoPanelManager.StartInfoPanelAsync();
 
@@ -29,11 +32,11 @@ public static class Startup
 
             Directory.CreateDirectory(ConfigurationGlobals.ApplicationDataFolder);
             InitSecret();
-            ConsoleService.Service.WriteSuccessLine(nameof(Startup), "\nFirst startup basic application configuration completed...");
-            ConsoleService.Service.WriteSuccessLine(nameof(Startup), "You will need to restart the application before the changes take effect.");
+            ConsoleService.Service.WriteSuccessLine(nameof(Startup), "\nFirst startup basic application configuration completed...", writeLog: false);
+            ConsoleService.Service.WriteSuccessLine(nameof(Startup), "You will need to restart the application before the changes take effect.", writeLog: false);
         }
-        ConsoleService.Service.WriteLine(nameof(Startup), "\nUse the tab key to cycle trough available commands, suggestions and options.\nUse <command name> --help or describe <search phrase> to display documentation.", null);
-        ConsoleService.Service.WriteLine(nameof(Startup), "\nUse up or down key  to cycle trough command history.", null);
+        ConsoleService.Service.WriteLine(nameof(Startup), "\nUse the tab key to cycle trough available commands, suggestions and options.\nUse <command name> --help or describe <search phrase> to display documentation.", null, writeLog: false);
+        ConsoleService.Service.WriteLine(nameof(Startup), "\nUse up or down key  to cycle trough command history.", null, writeLog: false);
         return new Managers.PowerCommandsManager(services);
     }
     private static void InitSecret()

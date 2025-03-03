@@ -1,4 +1,6 @@
-﻿using PainKiller.SearchLib.DomainObjects;
+﻿using System.Collections.Generic;
+using System.Linq;
+using PainKiller.SearchLib.DomainObjects;
 using PainKiller.SearchLib.Indexing;
 
 namespace PainKiller.SearchLib.Managers;

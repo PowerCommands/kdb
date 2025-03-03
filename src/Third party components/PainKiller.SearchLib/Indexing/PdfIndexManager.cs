@@ -1,4 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using PainKiller.SearchLib.DomainObjects;
 using PainKiller.SearchLib.Enums;
 using PdfSharpTextExtractor;
@@ -19,12 +23,11 @@ public class PdfIndexManager(string documentFolder, string indexFile) : BaseInde
                 {
                     DocId = $"{file}, line {i}",
                     Type = DocumentType.Pdf,
-                    Tokens = linesWithPages[i].Text.Split(new[] { ' ', '.', ',', ';', ':', '!', '?' }, StringSplitOptions.RemoveEmptyEntries)
+                    Tokens = linesWithPages[i].Text.Split([' ', '.', ',', ';', ':', '!', '?'], StringSplitOptions.RemoveEmptyEntries)
                 });
             }
         }
         SaveIndex();
-        Console.WriteLine($"Indexering av PDF-filer klar! Indexerade {Documents.Count} rader.");
     }
     public DocumentType GetDocumentType() => DocumentType.Pdf;
     private List<PdfLine> ExtractTextFromPdf(string pdfPath)
@@ -33,11 +36,11 @@ public class PdfIndexManager(string documentFolder, string indexFile) : BaseInde
         var currentPage = 1;
         var rawText = Extractor.PdfToText(pdfPath);
         rawText = Regex.Replace(rawText, @"<[^>]+>", ""); 
-        var textLines = rawText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        var textLines = rawText.Split(["\r\n", "\n"], StringSplitOptions.RemoveEmptyEntries);
         foreach (var line in textLines)
         {
-            if (IsLikelyMetadata(line))
-                continue;
+            //if (IsLikelyMetadata(line))
+            //    continue;
             if (line.StartsWith("Page ") || line.ToLower().Contains("sid "))
             {
                 if (int.TryParse(new string(line.Where(char.IsDigit).ToArray()), out int detectedPage))
@@ -74,15 +77,16 @@ public class PdfIndexManager(string documentFolder, string indexFile) : BaseInde
         var start = Math.Max(0, documentIndex - 5);
         var end = Math.Min(Documents.Count - 1, documentIndex + 5);
 
-        var surroundingLines = Documents[start..(end + 1)].Select(doc => string.Join(" ", doc.Tokens));
+        //var surroundingLines = Documents[start..(end + 1)].Select(doc => string.Join(" ", doc.Tokens));
+        var surroundingLines = Documents[documentIndex].Tokens.Select(t => string.Join(" ", t));
 
-        return $"{pageInfo}\n" + string.Join("\n", surroundingLines);
+        return $"{pageInfo}\n" + string.Join(" ", surroundingLines);
     }
 
     private int ExtractPageNumber(string docId)
     {
-        var match = Regex.Match(docId, @"\[Sid (\d+)\]");
-        return match.Success ? int.Parse(match.Groups[1].Value) : 1; // Standard: Sida 1 om inget sidnummer hittas
+        var match = Regex.Match(docId, @"\[PageCounter (\d+)\]");
+        return match.Success ? int.Parse(match.Groups[1].Value) : 1; 
     }
 
     private class PdfLine

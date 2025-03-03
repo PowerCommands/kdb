@@ -16,7 +16,8 @@ namespace PainKiller.SerilogExtensions.DomainObjects
         public bool IsEnabled(LogLevel logLevel)
         {
             var loglevelEvent = logLevel.ToLogLevel();
-            return _logger.IsEnabled(loglevelEvent);
+            var retVal = _logger.IsEnabled(loglevelEvent);
+            return retVal;
         }
         public IDisposable BeginScope<TState>(TState state) { return null; }
     }

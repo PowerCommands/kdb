@@ -1,4 +1,5 @@
-﻿using PainKiller.SearchLib.DomainObjects;
+﻿using System.Collections.Generic;
+using PainKiller.SearchLib.DomainObjects;
 using PainKiller.SearchLib.Enums;
 
 namespace PainKiller.SearchLib.Indexing;

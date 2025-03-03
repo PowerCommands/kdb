@@ -22,7 +22,9 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
         public virtual bool InitializeAndValidateInput(ICommandLineInput input, PowerCommandDesignAttribute? designAttribute = null)
         {
             Options.Clear();
+            Log(LogLevel.Debug, $"{nameof(InitializeAndValidateInput)} Options.Clear()");
             designAttribute ??= new PowerCommandDesignAttribute("This command has no design attribute");
+            Log(LogLevel.Debug, $"{nameof(InitializeAndValidateInput)} designAttribute: {designAttribute.Description}");
             if (IPowerCommandServices.DefaultInstance!.DefaultConsoleService.GetType().Name != _console.GetType().Name) _console = IPowerCommandServices.DefaultInstance.DefaultConsoleService;
             Input = input;
             DesignAttribute = designAttribute;
@@ -30,7 +32,9 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
             var validationManager = new InputValidationManager(this, input);
             var result = validationManager.ValidateAndInitialize();
             if (result.Options.Count > 0) Options.AddRange(result.Options);
+            Log(LogLevel.Debug, $"{nameof(InitializeAndValidateInput)} validationManager result.Options: {string.Join(',', result.Options)}");
             _console.WriteToOutput += ConsoleWriteToOutput;
+            Log(LogLevel.Debug, $"{nameof(InitializeAndValidateInput)} result.HasValidationError: {result.HasValidationError}");
             return result.HasValidationError;
         }
         public virtual void RunCompleted()
@@ -51,6 +55,7 @@ namespace PainKiller.PowerCommands.Core.BaseClasses
         public virtual RunResult Run() => throw new NotImplementedException();
         public virtual async Task<RunResult> RunAsync() => await Task.FromResult(new RunResult(this, Input, "", RunResultStatus.Initializing));
         protected TConfig Configuration { get; set; } = configuration;
+        protected void Log(LogLevel level, string message) => IPowerCommandServices.DefaultInstance?.Logger.Log(level, message);
 
         /// <summary>
         /// Disable log of severity levels Trace,Debug and Information.

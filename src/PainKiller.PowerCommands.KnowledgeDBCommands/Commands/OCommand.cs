@@ -1,4 +1,5 @@
 ﻿using PainKiller.PowerCommands.Configuration.DomainObjects;
+using PainKiller.PowerCommands.Configuration.DomainObjects;
 using PainKiller.PowerCommands.ReadLine;
 
 namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;

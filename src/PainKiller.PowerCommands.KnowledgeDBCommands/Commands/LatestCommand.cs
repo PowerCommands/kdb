@@ -24,7 +24,7 @@ public class LatestCommand(string identifier, PowerCommandsConfiguration configu
             ShowResult($"Latest {Items.Count} opened items.");
             return Ok();
         }
-        Items = GetAllItems().Where(i => i.Created > latestDate && (i.SourceType == sourceType || string.IsNullOrEmpty(sourceType))).ToList();
+        Items = GetAllItems().Where(i => i.Created > latestDate && (i.SourceType == sourceType || string.IsNullOrEmpty(sourceType))).OrderByDescending(i => i.Created).ToList();
         ShowResult($"Latest added {Items.Count} matches since {latestDate.ToShortDateString()}.");
 
         return Ok();

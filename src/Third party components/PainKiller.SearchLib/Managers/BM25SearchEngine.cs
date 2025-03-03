@@ -1,4 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using PainKiller.SearchLib.DomainObjects;
 using PainKiller.SearchLib.Indexing;
 
@@ -54,7 +57,7 @@ public class BM25SearchEngine
             var matchedDocument = indexManagers.SelectMany(m => m.GetDocuments()).FirstOrDefault(d => d.DocId == s.Key);
             var matchingIndexManager = matchedDocument != null ? indexManagers.FirstOrDefault(m => m.GetDocumentType() == matchedDocument.Type) : null;
 
-            return new SearchResult { DocId = s.Key, Score = s.Value, Content = matchingIndexManager != null ? matchingIndexManager.GetSurroundingText(s.Key) : "[Fel: Ingen indexhanterare hittad]" };
+            return new SearchResult { DocId = s.Key, Score = s.Value, PageNumber = matchedDocument?.PageNumber, Content = matchingIndexManager != null ? matchingIndexManager.GetSurroundingText(s.Key) : "[Fel: Ingen indexhanterare hittad]" };
         }).ToList();
 
         return topResults;

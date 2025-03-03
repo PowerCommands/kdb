@@ -39,7 +39,7 @@ public class FindCommand(string identifier, PowerCommandsConfiguration configura
             foreach (var item in Items.Take(count: MaxAutoOpenItems)) Open(item);
         }
         ShowResult($"Found {Items.Count} matches.");
-        if (Items.Count == 1 && Configuration.ShellConfiguration.Autostart) Open(Items.First());
+        if (Items.Count == 1 && Configuration.Shell.Autostart) Open(Items.First());
         return Ok();
     }
     public override void RunCompleted() { }
