@@ -1,6 +1,7 @@
 ﻿namespace PainKiller.PowerCommands.KnowledgeDBCommands.Commands;
 
-[PowerCommandDesign(description: "Run SSH commands, setup must be preformed first")]
+[PowerCommandDesign(description: "Starts up a new ssh session.",
+                        example: "ssh")]
 public class SshCommand(string identifier, PowerCommandsConfiguration configuration) : CommandBase<PowerCommandsConfiguration>(identifier, configuration)
 {
     public override RunResult Run()

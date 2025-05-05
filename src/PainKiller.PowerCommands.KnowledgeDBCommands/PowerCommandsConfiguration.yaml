@@ -7,7 +7,10 @@ configuration:
   shell:
     pathToOneNote: C:\Program Files\Microsoft Office\root\Office16\ONENOTE        
     autostart: true
-  
+  ssh:
+    host: fadermodemet.local
+    port: 33
+    user: harri    
   showDiagnosticInformation: false
   defaultCommand: find  
   codeEditor: C:\Users\%USERNAME%\AppData\Local\Programs\Microsoft VS Code\Code.exe
